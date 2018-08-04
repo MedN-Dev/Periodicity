@@ -5,18 +5,13 @@
 		</v-btn>
 
 		<v-navigation-drawer v-model="drawer" absolute temporary class="drawer" style="width: 13vw">
-
-			<v-list class="pt-0" dense style="background: none">
-				<v-list-tile v-for="item in items" :key="item.title" class="item">
-					<v-list-tile-action class="iconWrap">
-						<v-icon class="icon">{{ item.icon }}</v-icon>
-					</v-list-tile-action>
-
-					<v-list-tile-content style="height: auto">
-						{{ item.title }}
-					</v-list-tile-content>
-				</v-list-tile>
-			</v-list>
+			<h1>Modes</h1>
+			<div class="item" v-for="item in items" :key="item.title">
+				<v-icon :class="item.class+' icon'">{{ item.icon }}</v-icon>
+				<p class="text">
+					{{ item.title }}
+				</p>
+			</div>
 		</v-navigation-drawer>
 	</v-layout>
 </template>
@@ -27,7 +22,10 @@ export default {
 	data() {
 		return {
 			drawer: null,
-			items: [{ title: 'Periodic Table', icon: 'bubble_chart' }, { title: 'Periodic Trends', icon: 'poll' }],
+			items: [
+				{ title: 'Periodic Table', class: 'table', icon: 'bubble_chart' },
+				{ title: 'Periodic Trends', class: 'trends', icon: 'poll' },
+			],
 		};
 	},
 };
@@ -35,9 +33,12 @@ export default {
 
 <style lang="scss" scoped>
 * {
-	font-size: 1.5vw;
+	font-size: 1.4vw;
 	max-height: none;
 	// line-height: 2vw;
+}
+.v-list__tile {
+	height: 5vw;
 }
 .menuBtn {
 	position: absolute;
@@ -52,20 +53,43 @@ export default {
 	font-size: 3.5vw;
 }
 .drawer {
-	padding: 0.4vw;
-	padding-top: 2.5vw;
+	// padding: 0.4vw;
+	// padding-top: 1.5vw;
 	background: rgba(60, 66, 80, 0.85);
 	max-width: none;
+	padding: 0;
+	h1 {
+		font-weight: 300;
+		font-size: 1.5vw;
+		margin-top: 1vw;
+		border-bottom: 0.5px solid rgba(205, 205, 205, 0.5);
+		height: 3vw;
+	}
 	.item {
-		height: 5.5vw;
-		.iconWrap {
-			min-width: 0;
-			width: 1.5vw;
-			height: 1.5vw;
-			margin-right: 2.5vw;
-			.icon {
-				font-size: 2.5vw;
-			}
+		color: rgba(255, 255, 255, 0.7);
+		height: 5vw;
+		// padding: 1vw;
+		&:hover {
+			background: rgba(44, 44, 44, 0.7);
+		}
+		.icon {
+			float: left;
+			font-size: 2.5vw;
+			padding: 1vw;
+			color: darkslategrey;
+			opacity: 1;
+		}
+		.trends {
+			color: darkslateblue;
+		}
+		.text {
+			text-align: left;
+			float: right;
+			font-size: 1.5vw;
+			width: 8vw;
+			padding: 0.23vw 1.5vw 0 0;
+			margin: 0;
+			font-weight: 200;
 		}
 	}
 	width: 10vw;

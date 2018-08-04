@@ -1,19 +1,19 @@
 <template>
-    <v-footer height="auto">
-        <v-layout justify-center row wrap>
-            <!-- <v-btn v-for="link in links" :key="link" color="white" flat round>
+	<v-footer height="auto">
+		<v-layout justify-center row wrap>
+			<!-- <v-btn v-for="link in links" :key="link" color="white" flat round>
                 {{ link }}
             </v-btn> -->
-            <v-card-text class="white--text pt-0 about">
-                Ptable.io is an open source application that displays and graphs data in order to make chemical statistics more accessible. It runs on Vue.js and uses data from Chris Andrejewski's npm package.
-            </v-card-text>
+			<v-card-text class="white--text pt-0 about">
+				Periodic.io is an open source application that displays and graphs periodic data in order to make chemical statistics more accessible. It runs on Vue.js and uses data from Chris Andrejewski's npm package.
+			</v-card-text>
 
-            <v-flex primary lighten-2 py-3 text-xs-center white--text xs12>
-                &copy;2018 -
-                <span>Kadin Zhang</span>
-            </v-flex>
-        </v-layout>
-    </v-footer>
+			<v-flex primary lighten-2 py-3 text-xs-center white--text xs12>
+				&copy;2018 -
+				<span>Kadin Zhang</span>
+			</v-flex>
+		</v-layout>
+	</v-footer>
 </template>
 
 <script>

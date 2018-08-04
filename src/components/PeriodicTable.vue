@@ -7,7 +7,7 @@
 			<div v-else class="introduction">
 				<div class="features">
 					<h2>Features</h2>
-					<div class="point" v-for="point in points" :key="point.description">
+					<div v-for="point in points" :key="point.description" :class="point.class+' point'">
 						<v-icon>{{point.icon}}</v-icon>
 						<p>{{point.description}}</p>
 					</div>
@@ -41,19 +41,23 @@ export default {
 			current: null,
 			points: [
 				{
+					class: 'point1',
 					icon: 'open_in_new',
 					description: 'Hover an element to view basic information, or click to view its detailed page',
 				},
 				{
-					icon: 'trending_up',
+					class: 'point2',
+					icon: 'poll',
 					description: 'Use the menu to access the periodic trends mode, and graph trend values',
 				},
 				{
-					icon: 'open_in_new',
+					class: 'point3',
+					icon: 'account_balance_wallet',
 					description: 'Lorem ipsum dolor sit amet, ut pri clita persecuti, cetero epicurei aliquando',
 				},
 				{
-					icon: 'add_circle_outline',
+					class: 'point4',
+					icon: 'library_add',
 					description: 'Easily find the mass of a compound by right clicking elements to sum their masses',
 				},
 			],
@@ -172,14 +176,38 @@ export default {
 			color: rgba(255, 255, 255, 0.8);
 			width: 45.5vw;
 			h2 {
-				font-weight: normal;
-				padding-bottom: 0.5vw;
+				width: 20%;
+				font-weight: 300;
+				padding-bottom: 1vw;
+				font-size: 1.7vw;
+				border-bottom: 0.5px solid rgba(205, 205, 205, 0.5);
+				margin: auto auto 0.8vw auto;
 			}
 			.point {
 				width: 25%;
 				float: left;
 				padding: 0.3vw;
 				font-weight: 200;
+				font-size: 1vw;
+				p {
+					color: rgba(255, 255, 255, 0.6);
+				}
+				i {
+					font-size: 2.2vw;
+					opacity: 0.5;
+				}
+			}
+			.point1 {
+				color: crimson;
+			}
+			.point2 {
+				color: lightsteelblue;
+			}
+			.point3 {
+				color: green;
+			}
+			.point4 {
+				color: purple;
 			}
 		}
 	}
