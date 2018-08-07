@@ -51,8 +51,9 @@ export default {
 		}
 	}
 	.name {
-		font-size: 0.67vw;
-		margin-top: -0.25vw;
+		font-size: 0.66vw;
+		margin-top: -0.5vw;
+		opacity: 0.9;
 	}
 	.symbol {
 		font-weight: 600;

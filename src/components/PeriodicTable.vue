@@ -3,11 +3,11 @@
 		<div class="spacer1"></div>
 		<div class="spacer2"></div>
 		<div class="infoWrapper">
-			<div v-if="!current && mode === 'table'" class="introduction">
+			<div v-if="!current & mode === 'table'" class="introduction">
 				<div class="features">
 					<h2>Features</h2>
 					<div v-for="point in points" :key="point.description" :class="point.class+' point'">
-						<v-icon>{{point.icon}}</v-icon>
+						<v-icon :style="{color: point.color}">{{point.icon}}</v-icon>
 						<p>{{point.description}}</p>
 					</div>
 				</div>
@@ -44,28 +44,32 @@ export default {
 	data() {
 		return {
 			elements: pt.all(),
-			mode: 'table',
+			mode: 'trends',
 			current: null,
 			points: [
 				{
 					class: 'point1',
 					icon: 'open_in_new',
 					description: 'Hover an element to view basic information, or click to view its detailed page',
+					color: 'crimson',
 				},
 				{
 					class: 'point2',
 					icon: 'poll',
 					description: 'Use the menu to access the periodic trends mode, and graph trend values',
+					color: 'lightsteelblue',
 				},
 				{
 					class: 'point3',
 					icon: 'account_balance_wallet',
 					description: 'Lorem ipsum dolor sit amet, ut pri clita persecuti, cetero epicurei aliquando',
+					color: 'green',
 				},
 				{
 					class: 'point4',
 					icon: 'library_add',
 					description: 'Easily find the mass of a compound by right clicking elements to sum their masses',
+					color: 'purple',
 				},
 			],
 			nonMetal: [1, 6, 7, 8, 15, 16, 34],
@@ -215,7 +219,7 @@ export default {
 				}
 			}
 			.point1 {
-				color: crimson;
+				color: crimson !important;
 			}
 			.point2 {
 				color: lightsteelblue;

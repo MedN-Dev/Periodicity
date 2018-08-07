@@ -1,7 +1,7 @@
 <template>
 	<div class="wrap">
 		<v-select v-model="trend" :items="trends" label="Periodic Trend" class="select" dark></v-select>
-		<div style="height: 10.5vw">
+		<div style="height: 10.8vw">
 			<canvas id="trendChart"></canvas>
 		</div>
 
@@ -40,10 +40,14 @@ export default {
 	methods: {
 		renderChart() {
 			var atomicNumbers = this.elements.map(function(el) {
-				return el.atomicNumber;
+				if (el.atomicNumber < 103) {
+					return el.atomicNumber;
+				}
 			});
 			var ionizationEnergies = this.elements.map(function(el) {
-				return el.ionizationEnergy;
+				if (el.atomicNumber < 103) {
+					return el.ionizationEnergy;
+				}
 			});
 			var options = {
 				type: 'line',
@@ -96,7 +100,7 @@ export default {
 
 <style lang="scss" scoped>
 .wrap {
-	width: 95%;
+	width: 97%;
 	height: 95%;
 	margin: auto;
 	.select {
@@ -104,9 +108,9 @@ export default {
 		color: white;
 		opacity: 0.8;
 	}
-	div.menuable__content__active {
-		left: 0;
-		top: 0;
+	>>> div.menu__content {
+		left: 0 !important;
+		top: 0 !important;
 	}
 	#trendChart {
 		width: 100%;

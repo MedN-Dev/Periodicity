@@ -3,7 +3,6 @@
 		<v-btn class="menuBtn" @click.stop="drawer = !drawer">
 			<v-icon class="menuIcon">menu</v-icon>
 		</v-btn>
-
 		<v-navigation-drawer v-model="drawer" absolute temporary class="drawer" style="width: 13vw">
 			<h1>Modes</h1>
 			<div class="item" v-for="item in items" :key="item.title" @click="changeMode(item.class)">
@@ -54,6 +53,9 @@ export default {
 	margin-left: 3.5vw;
 	width: 3.5vw;
 	height: 3.5vw;
+	background: none !important;
+	color: rgba(255, 255, 255, 0.8);
+	box-shadow: none;
 }
 .menuIcon {
 	font-size: 3.5vw;

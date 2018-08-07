@@ -1,13 +1,15 @@
 <template>
 	<div id="app">
-		<Navigation/>
-		<div class="tableWrap">
-			<PeriodicTable/>
-		</div>
-		<div style="clear:both;"></div>
-		<div class="footerWrap">
-			<Footer/>
-		</div>
+		<v-app class="vueWrap">
+			<Navigation/>
+			<div class="tableWrap">
+				<PeriodicTable/>
+			</div>
+			<div style="clear:both;"></div>
+			<div class="footerWrap">
+				<Footer/>
+			</div>
+		</v-app>
 	</div>
 </template>
 
@@ -26,7 +28,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,800|Raleway');
 body {
 	background-color: rgba(35, 41, 55, 1);
@@ -42,6 +44,10 @@ sup {
 	color: #2c3e50;
 	height: 100%;
 	position: relative;
+	.vueWrap {
+		background: rgba(35, 41, 55, 1);
+		height: 50vw;
+	}
 }
 .tableWrap {
 	width: 88.1%;

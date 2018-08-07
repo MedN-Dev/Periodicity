@@ -1,11 +1,11 @@
 <template>
-    <div class="element">
-        <div class="atomicnumber">{{element.atomicNumber}}
-            <span>{{convertMass(element)}}</span>
-        </div>
-        <div class="symbol">{{element.symbol}}</div>
-        <div class="name">{{element.name}}</div>
-    </div>
+	<div class="element">
+		<div class="atomicnumber">{{element.atomicNumber}}
+			<span>{{convertMass(element)}}</span>
+		</div>
+		<div class="symbol">{{element.symbol}}</div>
+		<div class="name">{{element.name}}</div>
+	</div>
 </template>
 
 <script>
@@ -52,8 +52,9 @@ export default {
 		}
 	}
 	.name {
-		font-size: 0.67vw;
-		margin-top: -0.25vw;
+		font-size: 0.66vw;
+		margin-top: -0.5vw;
+		opacity: 0.9;
 	}
 	.symbol {
 		font-weight: 600;
