@@ -6,7 +6,7 @@
 
 		<v-navigation-drawer v-model="drawer" absolute temporary class="drawer" style="width: 13vw">
 			<h1>Modes</h1>
-			<div class="item" v-for="item in items" :key="item.title">
+			<div class="item" v-for="item in items" :key="item.title" @click="changeMode(item.class)">
 				<v-icon :class="item.class+' icon'">{{ item.icon }}</v-icon>
 				<p class="text">
 					{{ item.title }}
@@ -27,6 +27,12 @@ export default {
 				{ title: 'Periodic Trends', class: 'trends', icon: 'poll' },
 			],
 		};
+	},
+	methods: {
+		changeMode(mode) {
+			this.$root.$emit(`${mode}`, `Changed mode to ${mode}`);
+			this.drawer = !this.drawer;
+		},
 	},
 };
 </script>
@@ -69,25 +75,27 @@ export default {
 		color: rgba(255, 255, 255, 0.7);
 		height: 5vw;
 		// padding: 1vw;
+		transition: 0.25s;
 		&:hover {
-			background: rgba(44, 44, 44, 0.7);
+			cursor: pointer;
+			background: rgba(80, 86, 100, 0.9);
 		}
 		.icon {
 			float: left;
-			font-size: 2.5vw;
-			padding: 1vw;
-			color: darkslategrey;
+			font-size: 2.7vw;
+			padding: 1.1vw;
+			color: rgb(79, 133, 133);
 			opacity: 1;
 		}
 		.trends {
-			color: darkslateblue;
+			color: rgb(175, 77, 159);
 		}
 		.text {
 			text-align: left;
 			float: right;
-			font-size: 1.5vw;
+			font-size: 1.3vw;
 			width: 8vw;
-			padding: 0.23vw 1.5vw 0 0;
+			padding: 0.5vw 1.5vw 0 0;
 			margin: 0;
 			font-weight: 200;
 		}

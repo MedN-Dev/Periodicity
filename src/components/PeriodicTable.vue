@@ -2,9 +2,8 @@
 	<div width="100%" id="table">
 		<div class="spacer1"></div>
 		<div class="spacer2"></div>
-		<div class="infoBoxWrapper">
-			<InfoBox v-if="current" :element="this.current" />
-			<div v-else class="introduction">
+		<div class="infoWrapper">
+			<div v-if="!current && mode === 'table'" class="introduction">
 				<div class="features">
 					<h2>Features</h2>
 					<div v-for="point in points" :key="point.description" :class="point.class+' point'">
@@ -13,23 +12,30 @@
 					</div>
 				</div>
 			</div>
+			<InfoBox v-else-if="current && mode === 'table'" :element="this.current" />
+			<TrendBox v-else/>
+
 		</div>
 		<div class="spacer3"></div>
 		<div v-for="element in elements" :key="element.atomicNumber" v-if="isMain(element)" class="elementWrapper" @mouseenter="currentElement(element)">
-			<ElementCard :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
+			<ElementCard v-if="mode === 'table'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
+			<TrendCard v-else-if="mode === 'trends'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
 		</div>
 		<div class="spacer4"></div>
 		<div class="spacer5"></div>
 		<div class="spacer6"></div>
 		<div class="spacer7"></div>
 		<div v-for="element in elements" :key="element.atomicNumber" v-if="isBlockF(element)" class="elementWrapper" @mouseenter="currentElement(element)">
-			<ElementCard :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
+			<ElementCard v-if="mode === 'table'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
+			<TrendCard v-else-if="mode === 'trends'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
 		</div>
 	</div>
 </template>
 
 <script>
 import ElementCard from './ElementCard';
+import TrendCard from './TrendCard';
+import TrendBox from './TrendBox';
 import InfoBox from './InfoBox';
 var pt = require('periodic-table');
 
@@ -38,6 +44,7 @@ export default {
 	data() {
 		return {
 			elements: pt.all(),
+			mode: 'table',
 			current: null,
 			points: [
 				{
@@ -115,6 +122,8 @@ export default {
 	components: {
 		ElementCard,
 		InfoBox,
+		TrendCard,
+		TrendBox,
 	},
 	methods: {
 		isMain(element) {
@@ -153,6 +162,14 @@ export default {
 			this.current = element;
 		},
 	},
+	mounted: function() {
+		this.$root.$on('trends', text => {
+			this.mode = 'trends';
+		});
+		this.$root.$on('table', text => {
+			this.mode = 'table';
+		});
+	},
 };
 </script>
 
@@ -163,7 +180,7 @@ export default {
 .spacer2 {
 	grid-area: wa;
 }
-.infoBoxWrapper {
+.infoWrapper {
 	grid-area: wb;
 	.introduction {
 		width: 100%;

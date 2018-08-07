@@ -272,6 +272,7 @@ export default {
 				text-align: center;
 				margin: 0.5vw auto 0 auto;
 				color: rgba(255, 255, 255, 0.8);
+				font-weight: 300;
 			}
 		}
 		#ec {

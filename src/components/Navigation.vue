@@ -37,7 +37,7 @@ export default {
 		width: 100%;
 		text-align: center;
 		color: rgba(255, 255, 255, 0.9);
-		font-weight: 400;
+		font-weight: 300;
 		font-size: 2.5vw;
 	}
 }

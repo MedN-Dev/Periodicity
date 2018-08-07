@@ -44,6 +44,6 @@ footer {
 	font-size: 1.1vw;
 }
 span {
-	font-weight: 600;
+	font-weight: 400;
 }
 </style>
