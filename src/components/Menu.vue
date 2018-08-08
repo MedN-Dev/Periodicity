@@ -55,10 +55,12 @@ export default {
 	height: 3.5vw;
 	background: none !important;
 	color: rgba(255, 255, 255, 0.8);
-	box-shadow: none;
 }
 .menuIcon {
 	font-size: 3.5vw;
+}
+.v-navigation-drawer--close.v-navigation-drawer--temporary {
+	transform: translateX(-13vw) !important;
 }
 .drawer {
 	// padding: 0.4vw;

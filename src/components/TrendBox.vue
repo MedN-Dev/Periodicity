@@ -1,7 +1,7 @@
 <template>
 	<div class="wrap">
-		<v-select v-model="trend" :items="trends" label="Periodic Trend" class="select" dark></v-select>
-		<div style="height: 10.8vw">
+		<v-select v-model="trend" :items="trends" label="Periodic Trend" class="select" height="2.5vw" dark></v-select>
+		<div class="canvasWrap">
 			<canvas id="trendChart"></canvas>
 		</div>
 
@@ -34,21 +34,21 @@ export default {
 				'Melting Point',
 				'Boiling Point',
 			],
-			trend: '',
+			trend: 'Ionization Energy',
 		};
 	},
 	methods: {
 		renderChart() {
-			var atomicNumbers = this.elements.map(function(el) {
-				if (el.atomicNumber < 103) {
+			var atomicNumbers = this.elements
+				.map(function(el) {
 					return el.atomicNumber;
-				}
-			});
-			var ionizationEnergies = this.elements.map(function(el) {
-				if (el.atomicNumber < 103) {
+				})
+				.slice(0, 102);
+			var ionizationEnergies = this.elements
+				.map(function(el) {
 					return el.ionizationEnergy;
-				}
-			});
+				})
+				.slice(0, 102);
 			var options = {
 				type: 'line',
 				data: {
@@ -57,7 +57,6 @@ export default {
 						{
 							data: ionizationEnergies,
 							backgroundColor: ['rgba(255,255,255,0.2)'],
-							pointBorderWidth: 2,
 							pointBackgroundColor: 'rgba(255, 255, 255, 1)',
 						},
 					],
@@ -98,25 +97,35 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+div.menu__content {
+	top: 500px !important;
+}
 .wrap {
 	width: 97%;
-	height: 95%;
+	height: 100%;
 	margin: auto;
 	.select {
-		width: 50%;
+		width: 40%;
 		color: white;
 		opacity: 0.8;
-	}
-	>>> div.menu__content {
-		left: 0 !important;
-		top: 0 !important;
-	}
-	#trendChart {
-		width: 100%;
 		margin: auto;
-		height: 95%;
-		z-index: 100;
+		margin-top: 0.5vw;
+		height: 3vw;
+		>>> div.menu__content {
+			background: blue;
+		}
+	}
+	.canvasWrap {
+		display: block;
+		height: 10.5vw;
+		// margin-bottom: -11vw;
+		#trendChart {
+			width: 100%;
+			margin: auto;
+			height: 100%;
+			z-index: 100;
+		}
 	}
 }
 </style>
