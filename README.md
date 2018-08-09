@@ -1,6 +1,6 @@
 # ptable
 
-> Vue.js Periodic Table
+Periodic.io displays and graphs periodic data in order to make chemical statistics more accessible.
 
 ## Build Setup
 

@@ -1,6 +1,6 @@
 // https://github.com/michael-ciniawsky/postcss-load-config
 
-module.exports = {
+module.exports = { 
   "plugins": {
     "postcss-import": {},
     "postcss-url": {},
