@@ -1,10 +1,10 @@
 # ptable
 
-Periodic.io displays and graphs periodic data in order to make chemical statistics more accessible.
+Dynamic periodic table to display and graph data from a data set. Built using Vue.js.
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 
