@@ -61,7 +61,6 @@ export default {
 	}
 	&:hover {
 		color: rgba(255, 255, 255, 0.9);
-		// transform: translate(-5px, -5px);
 	}
 }
 .alkali {

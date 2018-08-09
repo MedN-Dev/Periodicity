@@ -38,7 +38,7 @@ export default {
 		text-align: center;
 		color: rgba(255, 255, 255, 0.9);
 		font-weight: 300;
-		font-size: 2.5vw;
+		font-size: 2.3vw;
 	}
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<div class="wrap">
-		<v-select v-model="trend" :items="trends" label="Periodic Trend" class="select" height="2.5vw" dark></v-select>
+		<v-select v-model="trend" :items="trends" label="Periodic Trend" class="select" height="2.5vw" @change="updateChart()" dark></v-select>
 		<div class="canvasWrap">
 			<canvas id="trendChart"></canvas>
 		</div>
@@ -17,14 +17,10 @@ export default {
 	mounted: function() {
 		this.renderChart();
 	},
-	watch: {
-		element: function() {
-			this.renderChart();
-		},
-	},
 	data() {
 		return {
 			elements: pt.all(),
+			graph: null,
 			trends: [
 				'Electronegativity',
 				'Atomic Radius',
@@ -39,25 +35,50 @@ export default {
 	},
 	methods: {
 		renderChart() {
-			var atomicNumbers = this.elements
-				.map(function(el) {
-					return el.atomicNumber;
-				})
-				.slice(0, 102);
-			var ionizationEnergies = this.elements
-				.map(function(el) {
-					return el.ionizationEnergy;
-				})
-				.slice(0, 102);
+			if (this.trend === 'Ionization Energy') {
+				var atomicNumbers = this.elements
+					.map(function(el) {
+						return el.atomicNumber;
+					})
+					.slice(0, 102);
+				var trendToGraph = this.elements
+					.map(function(el) {
+						return el.ionizationEnergy;
+					})
+					.slice(0, 102);
+			} else if (this.trend === 'Electronegativity') {
+				var atomicNumbers = this.elements
+					.map(function(el) {
+						return el.atomicNumber;
+					})
+					.slice(0, 103);
+				var trendToGraph = this.elements
+					.map(function(el) {
+						return el.electronegativity;
+					})
+					.slice(0, 103);
+			} else if (this.trend === 'Atomic Radius') {
+				var atomicNumbers = this.elements
+					.map(function(el) {
+						return el.atomicNumber;
+					})
+					.slice(0, 118);
+				var trendToGraph = this.elements
+					.map(function(el) {
+						return el.atomicRadius;
+					})
+					.slice(0, 118);
+			}
 			var options = {
 				type: 'line',
 				data: {
 					labels: atomicNumbers,
 					datasets: [
 						{
-							data: ionizationEnergies,
-							backgroundColor: ['rgba(255,255,255,0.2)'],
-							pointBackgroundColor: 'rgba(255, 255, 255, 1)',
+							data: trendToGraph,
+							backgroundColor: 'rgba(110, 60, 70, 0.2)',
+							borderColor: 'rgba(110, 60, 70, 0.75)',
+							pointBackgroundColor: 'rgba(158, 49, 71, 1)',
 						},
 					],
 				},
@@ -89,10 +110,179 @@ export default {
 					},
 				},
 			};
-
 			var ctx = document.getElementById('trendChart').getContext('2d');
-			new Chart(ctx, options);
+			this.graph = new Chart(ctx, options);
 		},
+		updateChart() {
+			if (this.trend === 'Ionization Energy') {
+				var atomicNumbers = this.elements
+					.map(function(el) {
+						return el.atomicNumber;
+					})
+					.slice(0, 102);
+				var trendToGraph = this.elements
+					.map(function(el) {
+						return el.ionizationEnergy;
+					})
+					.slice(0, 102);
+				var backgroundColor = 'rgba(130, 80, 90, 0.2)';
+				var borderColor = 'rgba(130, 80, 90, 0.75)';
+				var pointBackgroundColor = 'rgba(130, 80, 90, 1)';
+			} else if (this.trend === 'Electronegativity') {
+				var atomicNumbers = this.elements
+					.map(function(el) {
+						return el.atomicNumber;
+					})
+					.slice(0, 103);
+				var trendToGraph = this.elements
+					.map(function(el) {
+						return el.electronegativity;
+					})
+					.slice(0, 103);
+				var backgroundColor = 'rgba(239, 187, 49, 0.2)';
+				var borderColor = 'rgba(239, 187, 49, 0.75)';
+				var pointBackgroundColor = 'rgba(239, 187, 49, 1)';
+			} else if (this.trend === 'Atomic Radius') {
+				var atomicNumbers = this.elements
+					.map(function(el) {
+						return el.atomicNumber;
+					})
+					.slice(0, 57);
+				var trendToGraph = this.elements
+					.map(function(el) {
+						return el.atomicRadius;
+					})
+					.slice(0, 57);
+				var backgroundColor = 'rgba(90, 137, 219, 0.2)';
+				var borderColor = 'rgba(90, 137, 219, 0.75)';
+				var pointBackgroundColor = 'rgba(90, 137, 219, 1)';
+			} else if (this.trend === 'Ionic Radius') {
+				var atomicNumbers = this.elements
+					.map(function(el) {
+						return el.atomicNumber;
+					})
+					.slice(0, 118);
+				var trendToGraph = this.elements
+					.map(function(el) {
+						return el.vanDelWaalsRadius;
+					})
+					.slice(0, 118);
+				var backgroundColor = 'rgba(90, 137, 219, 0.2)';
+				var borderColor = 'rgba(90, 137, 219, 0.75)';
+				var pointBackgroundColor = 'rgba(90, 137, 219, 1)';
+			} else if (this.trend === 'Electron Affinity') {
+				var atomicNumbers = this.elements
+					.map(function(el) {
+						return el.atomicNumber;
+					})
+					.slice(0, 86);
+				var trendToGraph = this.elements
+					.map(function(el) {
+						return -el.electronAffinity;
+					})
+					.slice(0, 86);
+				var backgroundColor = 'rgba(90, 137, 219, 0.2)';
+				var borderColor = 'rgba(90, 137, 219, 0.75)';
+				var pointBackgroundColor = 'rgba(90, 137, 219, 1)';
+			}
+			var newData = {
+				labels: atomicNumbers,
+				datasets: [
+					{
+						data: trendToGraph,
+						backgroundColor: backgroundColor,
+						borderColor: borderColor,
+						pointBackgroundColor: pointBackgroundColor,
+					},
+				],
+			};
+			this.graph.data = newData;
+			this.graph.update();
+		},
+		// renderChart() {
+		// 	var ctx = document.getElementById('trendChart').getContext('2d');
+		// 	this.graph = new Chart(ctx, this.graphOptions);
+		// },
+		// renderChart(isNew) {
+		// 	if (this.trend === 'Ionization Energy') {
+		// 		var atomicNumbers = this.elements
+		// 			.map(function(el) {
+		// 				return el.atomicNumber;
+		// 			})
+		// 			.slice(0, 102);
+		// 		var trendToGraph = this.elements
+		// 			.map(function(el) {
+		// 				return el.ionizationEnergy;
+		// 			})
+		// 			.slice(0, 102);
+		// 	} else if (this.trend === 'Electronegativity') {
+		// 		var atomicNumbers = this.elements
+		// 			.map(function(el) {
+		// 				return el.atomicNumber;
+		// 			})
+		// 			.slice(0, 103);
+		// 		var trendToGraph = this.elements
+		// 			.map(function(el) {
+		// 				return el.electronegativity;
+		// 			})
+		// 			.slice(0, 103);
+		// 	} else if (this.trend === 'Atomic Radius') {
+		// 		var atomicNumbers = this.elements
+		// 			.map(function(el) {
+		// 				return el.atomicNumber;
+		// 			})
+		// 			.slice(0, 118);
+		// 		var trendToGraph = this.elements
+		// 			.map(function(el) {
+		// 				return el.atomicRadius;
+		// 			})
+		// 			.slice(0, 118);
+		// 	}
+
+		// 	var options = {
+		// 		type: 'line',
+		// 		data: {
+		// 			labels: atomicNumbers,
+		// 			datasets: [
+		// 				{
+		// 					data: trendToGraph,
+		// 					backgroundColor: 'rgba(110, 60, 70, 0.2)',
+		// 					borderColor: 'rgba(110, 60, 70, 0.75)',
+		// 					pointBackgroundColor: 'rgba(158, 49, 71, 1)',
+		// 				},
+		// 			],
+		// 		},
+		// 		options: {
+		// 			layout: {
+		// 				padding: {
+		// 					top: 10,
+		// 					bottom: 10,
+		// 					left: 10,
+		// 					right: 10,
+		// 				},
+		// 			},
+		// 			maintainAspectRatio: false,
+		// 			responsive: true,
+		// 			legend: {
+		// 				display: false,
+		// 			},
+		// 			scales: {
+		// 				xAxes: [
+		// 					{
+		// 						display: false,
+		// 					},
+		// 				],
+		// 				yAxes: [
+		// 					{
+		// 						display: false,
+		// 					},
+		// 				],
+		// 			},
+		// 		},
+		// 	};
+		// 	var ctx = document.getElementById('trendChart').getContext('2d');
+		// 	this.graph = new Chart(ctx, options);
+		// },
 	},
 };
 </script>
