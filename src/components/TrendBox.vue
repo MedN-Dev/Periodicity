@@ -1,6 +1,6 @@
 <template>
 	<div class="wrap">
-		<v-select v-model="trend" :items="trends" label="Periodic Trend" class="select" height="2.5vw" @change="updateChart()" dark></v-select>
+		<v-select v-model="trend" :items="trends" label="Periodic Trend" class="select" height="2.5vw" @change="updateChart()" dark :color="selectColor[trend]"></v-select>
 		<div class="canvasWrap">
 			<canvas id="trendChart"></canvas>
 		</div>
@@ -30,44 +30,41 @@ export default {
 				'Melting Point',
 			],
 			trend: 'Ionization Energy',
+			selectColor: {
+				'Electronegativity': 'yellow darken-1',
+				'Atomic Radius': 'blue',
+				'Density': 'deep-purple accent-1',
+				'Ionization Energy': 'red',
+				'Electron Affinity': 'purple accent-3',
+				'Melting Point': 'orange',
+			}
 		};
 	},
 	methods: {
+		selectColors() {
+			var myColors = {
+				'Electronegativity': 'rgba(110, 60, 70, 0.2)',
+				'Atomic Radius': 'rgba(110, 60, 70, 0.2)',
+				'Density': 'rgba(110, 60, 70, 0.2)',
+				'Ionization Energy': 'rgba(110, 60, 70, 0.2)',
+				'Electron Affinity': 'rgba(110, 60, 70, 0.2)',
+				'Melting Point': 'rgba(110, 60, 70, 0.2)',
+			};
+			return myColors[this.trend];
+			alert(this.trend);
+		},
 		renderChart() {
-			if (this.trend === 'Ionization Energy') {
-				var atomicNumbers = this.elements
-					.map(function(el) {
-						return el.atomicNumber;
-					})
-					.slice(0, 102);
-				var trendToGraph = this.elements
-					.map(function(el) {
-						return el.ionizationEnergy;
-					})
-					.slice(0, 102);
-			} else if (this.trend === 'Electronegativity') {
-				var atomicNumbers = this.elements
-					.map(function(el) {
-						return el.atomicNumber;
-					})
-					.slice(0, 103);
-				var trendToGraph = this.elements
-					.map(function(el) {
-						return el.electronegativity;
-					})
-					.slice(0, 103);
-			} else if (this.trend === 'Atomic Radius') {
-				var atomicNumbers = this.elements
-					.map(function(el) {
-						return el.atomicNumber;
-					})
-					.slice(0, 118);
-				var trendToGraph = this.elements
-					.map(function(el) {
-						return el.atomicRadius;
-					})
-					.slice(0, 118);
-			}
+			var atomicNumbers = this.elements
+				.map(function(el) {
+					return el.atomicNumber;
+				})
+				.slice(0, 102);
+			var trendToGraph = this.elements
+				.map(function(el) {
+					return el.ionizationEnergy;
+				})
+				.slice(0, 102);
+
 			var options = {
 				type: 'line',
 				data: {
@@ -226,25 +223,41 @@ export default {
 </script>
 
 <style lang="scss">
-div.menu__content {
-	top: 500px !important;
+.v-menu__content {
+	background: none;
+	max-height: none;
+	.v-select-list {
+		background: rgba(60, 66, 80, 0.95);
+		.v-list {
+			background: none;
+			padding: 0 !important;
+			.v-list__tile {
+				color: rgba(255, 255, 255, 0.9);
+			}
+		}
+	}
+}
+.v-menu__content.menuable__content__active {
+	background: none;
 }
 .wrap {
 	width: 97%;
 	height: 100%;
 	margin: auto;
+	.v-input__slot {
+		border-color: white;
+	}
 	.select {
 		width: 40% !important;
-		color: white;
 		opacity: 0.8;
 		margin: auto;
 		margin-top: 0.5vw;
 		height: 3vw;
-		.v-menu__content {
-			opacity: 0.1;
-		}
 		.v-select__selection {
-			// opacity: 0.1;
+			color: white;
+		}
+		label {
+			color: white;
 		}
 	}
 
