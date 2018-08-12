@@ -49,6 +49,17 @@ sup {
 		height: 50vw;
 	}
 }
+.application--dark,
+.list,
+.navigation-drawer {
+	background: #570505 !important;
+}
+.application .theme--light.v-navigation-drawer .v-divider,
+.application .theme--light.v-navigation-drawer:not(.v-navigation-drawer--floating) .v-navigation-drawer__border,
+.theme--light .v-navigation-drawer .v-divider,
+.theme--light .v-navigation-drawer:not(.v-navigation-drawer--floating) .v-navigation-drawer__border {
+	background: none;
+}
 .tableWrap {
 	width: 88.1%;
 	margin: auto;

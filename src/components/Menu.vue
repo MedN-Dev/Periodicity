@@ -75,6 +75,9 @@ export default {
 		border-bottom: 0.5px solid rgba(205, 205, 205, 0.5);
 		height: 3vw;
 	}
+	.v-navigation-drawer__border {
+		width: 0 !important;
+	}
 	.item {
 		color: rgba(255, 255, 255, 0.7);
 		height: 5vw;

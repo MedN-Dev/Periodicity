@@ -1,6 +1,6 @@
 <template>
 	<div class="wrap">
-		<v-select v-model="trend" :items="trends" label="Periodic Trend" class="select" height="2.5vw" @change="updateChart()" dark :color="selectColor[trend]"></v-select>
+		<v-select v-model="trend" :items="trends" label="Periodic Trend" class="select" height="2.5vw" @change="updateChart()" dark :color="selectColor[trend]" :hint="units[trend]" persistent-hint></v-select>
 		<div class="canvasWrap">
 			<canvas id="trendChart"></canvas>
 		</div>
@@ -31,32 +31,28 @@ export default {
 			],
 			trend: 'Ionization Energy',
 			selectColor: {
-				'Electronegativity': 'yellow darken-1',
+				Electronegativity: 'yellow darken-1',
 				'Atomic Radius': 'blue',
-				'Density': 'deep-purple accent-1',
+				Density: 'deep-purple accent-1',
 				'Ionization Energy': 'red',
 				'Electron Affinity': 'purple accent-3',
 				'Melting Point': 'orange',
-			}
+			},
+			units: {
+				Electronegativity: 'in χr',
+				'Atomic Radius': 'in pm',
+				Density: 'in g/mL, STP',
+				'Ionization Energy': 'in kJ/mol',
+				'Electron Affinity': 'in kJ/mol',
+				'Melting Point': 'in Kelvin',
+			},
 		};
 	},
 	methods: {
-		selectColors() {
-			var myColors = {
-				'Electronegativity': 'rgba(110, 60, 70, 0.2)',
-				'Atomic Radius': 'rgba(110, 60, 70, 0.2)',
-				'Density': 'rgba(110, 60, 70, 0.2)',
-				'Ionization Energy': 'rgba(110, 60, 70, 0.2)',
-				'Electron Affinity': 'rgba(110, 60, 70, 0.2)',
-				'Melting Point': 'rgba(110, 60, 70, 0.2)',
-			};
-			return myColors[this.trend];
-			alert(this.trend);
-		},
 		renderChart() {
 			var atomicNumbers = this.elements
 				.map(function(el) {
-					return el.atomicNumber;
+					return el.atomicNumber + ' - ' + el.name;
 				})
 				.slice(0, 102);
 			var trendToGraph = this.elements
@@ -64,17 +60,21 @@ export default {
 					return el.ionizationEnergy;
 				})
 				.slice(0, 102);
-
 			var options = {
 				type: 'line',
 				data: {
 					labels: atomicNumbers,
 					datasets: [
 						{
+							label: 'Ionization Energy',
 							data: trendToGraph,
 							backgroundColor: 'rgba(110, 60, 70, 0.2)',
-							borderColor: 'rgba(110, 60, 70, 0.75)',
+							borderColor: 'rgba(110, 60, 70, 0.95)',
 							pointBackgroundColor: 'rgba(158, 49, 71, 1)',
+							borderWidth: 2,
+							pointBorderWidth: 0.1,
+							pointRadius: 2.5,
+							pointHoverRadius: 5,
 						},
 					],
 				},
@@ -91,6 +91,17 @@ export default {
 					responsive: true,
 					legend: {
 						display: false,
+					},
+					tooltips: {
+						displayColors: false,
+						backgroundColor: 'rgba(0, 6, 20, 0.7)',
+						titleFontStyle: 'semi-bold',
+						titleFontFamily: "'Open sans', sans-serif",
+						bodyFontFamily: "'Open sans', sans-serif",
+						bodyFontColor: 'rgba(255, 255, 255, 0.7)',
+						xPadding: 10,
+						yPadding: 10,
+						cornerRadius: 0,
 					},
 					scales: {
 						xAxes: [
@@ -114,7 +125,7 @@ export default {
 				//Ionization Energy
 				var atomicNumbers = this.elements
 					.map(function(el) {
-						return el.atomicNumber;
+						return el.atomicNumber + ' - ' + el.name;
 					})
 					.slice(0, 102);
 				var trendToGraph = this.elements
@@ -125,11 +136,12 @@ export default {
 				var backgroundColor = 'rgba(155, 37, 60, 0.2)';
 				var borderColor = 'rgba(155, 37, 60, 0.75)';
 				var pointBackgroundColor = 'rgba(155, 37, 60, 1)';
+				var label = 'Ionization Energy';
 			} else if (this.trend === 'Electronegativity') {
 				//Electronegativity
 				var atomicNumbers = this.elements
 					.map(function(el) {
-						return el.atomicNumber;
+						return el.atomicNumber + ' - ' + el.name;
 					})
 					.slice(0, 103);
 				var trendToGraph = this.elements
@@ -140,11 +152,12 @@ export default {
 				var backgroundColor = 'rgba(239, 187, 49, 0.2)';
 				var borderColor = 'rgba(239, 187, 49, 0.75)';
 				var pointBackgroundColor = 'rgba(239, 187, 49, 1)';
+				var label = 'Electronegativity';
 			} else if (this.trend === 'Atomic Radius') {
 				// Atomic Radius
 				var atomicNumbers = this.elements
 					.map(function(el) {
-						return el.atomicNumber;
+						return el.atomicNumber + ' - ' + el.name;
 					})
 					.slice(0, 57);
 				var trendToGraph = this.elements
@@ -155,11 +168,12 @@ export default {
 				var backgroundColor = 'rgba(90, 137, 219, 0.2)';
 				var borderColor = 'rgba(90, 137, 219, 0.75)';
 				var pointBackgroundColor = 'rgba(90, 137, 219, 1)';
+				var label = 'Atomic Radius';
 			} else if (this.trend === 'Electron Affinity') {
 				// Electron Affinity
 				var atomicNumbers = this.elements
 					.map(function(el) {
-						return el.atomicNumber;
+						return el.atomicNumber + ' - ' + el.name;
 					})
 					.slice(0, 86);
 				var trendToGraph = this.elements
@@ -170,14 +184,17 @@ export default {
 				var backgroundColor = 'rgba(175, 26, 163, 0.2)';
 				var borderColor = 'rgba(175, 26, 163, 0.6)';
 				var pointBackgroundColor = 'rgba(175, 26, 163, 1)';
+				var label = 'Electron Affinity';
 			} else if (this.trend === 'Density') {
 				//Density
 				var atomicNumbers = this.elements
 					.map(function(el) {
-						return el.atomicNumber;
+						return el.atomicNumber + ' - ' + el.name;
 					})
 					.slice(0, 98);
-				atomicNumbers = atomicNumbers.filter(item => ![85, 87, 95].includes(item));
+				atomicNumbers = atomicNumbers.filter(
+					item => !['85 - Astatine', '87 - Francium', '95 - Americium'].includes(item)
+				);
 				var trendToGraph = this.elements
 					.map(function(el) {
 						return el.density;
@@ -187,11 +204,12 @@ export default {
 				var backgroundColor = 'rgba(106, 70, 140, 0.2)';
 				var borderColor = 'rgba(106, 70, 140, 0.75)';
 				var pointBackgroundColor = 'rgba(136, 100, 170, 1)';
+				var label = 'Density';
 			} else if (this.trend === 'Melting Point') {
 				// Melting Point
 				var atomicNumbers = this.elements
 					.map(function(el) {
-						return el.atomicNumber;
+						return el.atomicNumber + ' - ' + el.name;
 					})
 					.slice(0, 104);
 				var trendToGraph = this.elements
@@ -203,15 +221,20 @@ export default {
 				var backgroundColor = 'rgba(180, 85, 30, 0.2)';
 				var borderColor = 'rgba(180, 85, 30, 0.75)';
 				var pointBackgroundColor = 'rgba(180, 85, 30, 1)';
+				var label = 'Melting Point';
 			}
 			var newData = {
 				labels: atomicNumbers,
 				datasets: [
 					{
+						label: label,
 						data: trendToGraph,
 						backgroundColor: backgroundColor,
 						borderColor: borderColor,
 						pointBackgroundColor: pointBackgroundColor,
+						pointBorderWidth: 0.1,
+						pointRadius: 2.5,
+						pointHoverRadius: 5,
 					},
 				],
 			};
@@ -227,7 +250,8 @@ export default {
 	background: none;
 	max-height: none;
 	.v-select-list {
-		background: rgba(60, 66, 80, 0.95);
+		// background: rgba(60, 66, 80, 0.95);
+		background: none;
 		.v-list {
 			background: none;
 			padding: 0 !important;
@@ -238,10 +262,10 @@ export default {
 	}
 }
 .v-menu__content.menuable__content__active {
-	background: none;
+	background: none !important;
 }
 .wrap {
-	width: 97%;
+	width: 98%;
 	height: 100%;
 	margin: auto;
 	.v-input__slot {
@@ -249,21 +273,18 @@ export default {
 	}
 	.select {
 		width: 40% !important;
-		opacity: 0.8;
+		opacity: 0.9;
 		margin: auto;
 		margin-top: 0.5vw;
 		height: 3vw;
-		.v-select__selection {
-			color: white;
-		}
-		label {
-			color: white;
+		.v-messages {
+			height: 14px;
 		}
 	}
 
 	.canvasWrap {
 		display: block;
-		height: 10.5vw;
+		height: 11vw;
 		// margin-bottom: -11vw;
 		#trendChart {
 			width: 100%;
