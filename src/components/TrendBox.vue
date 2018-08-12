@@ -276,7 +276,7 @@ export default {
 		opacity: 0.9;
 		margin: auto;
 		margin-top: 0.5vw;
-		height: 3vw;
+		height: 2.2vw;
 		.v-messages {
 			height: 14px;
 		}
@@ -284,7 +284,7 @@ export default {
 
 	.canvasWrap {
 		display: block;
-		height: 11vw;
+		height: 11.8vw;
 		// margin-bottom: -11vw;
 		#trendChart {
 			width: 100%;
