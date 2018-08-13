@@ -213,7 +213,6 @@ export default {
 }
 #table {
 	margin-top: 1vw;
-	margin-bottom: 3vw;
 	float: right;
 	display: inline-grid;
 	grid-template-columns: repeat(18, 1fr);

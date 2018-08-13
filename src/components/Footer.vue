@@ -32,10 +32,10 @@ export default {
 }
 footer {
 	color: rgba(255, 255, 255, 0.7);
-	font-size: 1.2vw;
+	font-size: 1.1vw;
 	padding-bottom: 10px;
 	width: 70%;
-	margin: 1vw auto auto auto;
+	margin: 0.5vw auto auto auto;
 }
 .v-footer {
 	background: rgba(35, 41, 55, 1);
@@ -49,7 +49,7 @@ footer {
 	padding: 0;
 	border-bottom: 0.5px solid rgba(240, 240, 240, 0.5);
 	padding-bottom: 20px;
-	font-size: 1.1vw;
+	font-size: 1vw;
 }
 span {
 	font-weight: 400;
