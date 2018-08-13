@@ -121,10 +121,11 @@ export default {
 			this.graph = new Chart(ctx, options);
 		},
 		updateChart() {
+			this.$root.$emit('displayTrend', this.trend);
+
 			var atomicNumbers = this.elements.map(function(el) {
 				return el.atomicNumber + ' - ' + el.name;
 			});
-
 			if (this.trend === 'Ionization Energy') {
 				atomicNumbers = atomicNumbers.slice(0, 102);
 				var trendToGraph = this.elements

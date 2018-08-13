@@ -19,7 +19,7 @@
 		<div class="spacer3"></div>
 		<div v-for="element in elements" :key="element.atomicNumber" v-if="isMain(element)" class="elementWrapper" @mouseenter="currentElement(element)">
 			<ElementCard v-if="mode === 'table'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
-			<TrendCard v-else-if="mode === 'trends'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
+			<TrendCard :trendToDisplay="trend" v-else-if="mode === 'trends'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)"/>
 		</div>
 		<div class="spacer4"></div>
 		<div class="spacer5"></div>
@@ -27,7 +27,7 @@
 		<div class="spacer7"></div>
 		<div v-for="element in elements" :key="element.atomicNumber" v-if="isBlockF(element)" class="elementWrapper" @mouseenter="currentElement(element)">
 			<ElementCard v-if="mode === 'table'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
-			<TrendCard v-else-if="mode === 'trends'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
+			<TrendCard :trendToDisplay="trend" v-else-if="mode === 'trends'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
 		</div>
 	</div>
 </template>
@@ -46,6 +46,7 @@ export default {
 			elements: pt.all(),
 			mode: 'trends',
 			current: null,
+			trend: 'Ionization Energy',
 			points: [
 				{
 					class: 'point1',
@@ -134,6 +135,9 @@ export default {
 		});
 		this.$root.$on('table', text => {
 			this.mode = 'table';
+		});
+		this.$root.$on('displayTrend', text => {
+			this.trend = text;
 		});
 	},
 };

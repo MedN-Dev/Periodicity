@@ -1,7 +1,6 @@
 <template>
-	<div class="element">
-		<div class="atomicnumber">{{element.atomicNumber}}
-			<span>{{convertMass(element)}}</span>
+	<div class="element" :style="renderStyle(trendToDisplay, element)">
+		<div class="atomicnumber">{{element.ionizationEnergy || "n/a"}}
 		</div>
 		<div class="symbol">{{element.symbol}}</div>
 		<div class="name">{{element.name}}</div>
@@ -11,9 +10,18 @@
 <script>
 export default {
 	name: 'TrendCard',
-	props: ['element'],
+	props: ['element', 'trendToDisplay'],
 	data() {
-		return {};
+		return {
+			selectColor: {
+				Electronegativity: 'rgb(239, 187, 49)',
+				'Atomic Radius': 'rgb(90, 137, 219)',
+				Density: 'rgb(106, 70, 140)',
+				'Ionization Energy': 'rgb(155, 37, 60)',
+				'Electron Affinity': 'rgb(175, 26, 163)',
+				'Melting Point': 'rgb(180, 85, 30)',
+			},
+		};
 	},
 	methods: {
 		convertMass(element) {
@@ -26,6 +34,13 @@ export default {
 			} else {
 				return m.toString();
 			}
+		},
+		renderStyle(trend, element) {
+			if (trend === 'Ionization Energy') {
+				var opacity = element.ionizationEnergy / 2372;
+				var background = `rgba(155, 37, 60, ${opacity}`;
+			}
+			return `background: ${background}`;
 		},
 	},
 };
@@ -43,22 +58,19 @@ export default {
 	transition-timing-function: ease;
 	background: grey;
 	.atomicnumber {
-		text-align: left;
+		text-align: center;
 		color: rgba(245, 245, 245, 0.5);
 		font-size: 0.65vw;
-		span {
-			float: right;
-			color: rgba(245, 245, 245, 0.3);
-		}
 	}
 	.name {
 		font-size: 0.66vw;
 		margin-top: -0.5vw;
-		opacity: 0.9;
+		opacity: 0.5;
 	}
 	.symbol {
 		font-weight: 600;
 		font-size: 2vw;
+		opacity: 0.8;
 	}
 	&:hover {
 		color: rgba(255, 255, 255, 0.9);
