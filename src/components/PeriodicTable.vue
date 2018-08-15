@@ -13,13 +13,13 @@
 				</div>
 			</div>
 			<InfoBox v-else-if="current && mode === 'table'" :element="this.current" />
-			<TrendBox v-else/>
+			<TrendBox v-else :current="current" />
 
 		</div>
 		<div class="spacer3"></div>
 		<div v-for="element in elements" :key="element.atomicNumber" v-if="isMain(element)" class="elementWrapper" @mouseenter="currentElement(element)">
 			<ElementCard v-if="mode === 'table'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
-			<TrendCard :trendToDisplay="trend" v-else-if="mode === 'trends'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)"/>
+			<TrendCard :trendToDisplay="trend" v-else-if="mode === 'trends'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
 		</div>
 		<div class="spacer4"></div>
 		<div class="spacer5"></div>
@@ -38,6 +38,27 @@ import TrendCard from './TrendCard';
 import TrendBox from './TrendBox';
 import InfoBox from './InfoBox';
 var pt = require('periodic-table');
+
+//Data inconsistency overrides
+pt.elements.Helium.electronAffinity = '0';
+pt.elements.Neon.electronAffinity = '0';
+pt.elements.Argon.electronAffinity = '0';
+pt.elements.Krypton.electronAffinity = '0';
+pt.elements.Krypton.electronegativity = '3.0';
+pt.elements.Xenon.electronAffinity = '0';
+pt.elements.Xenon.electronegativity = '2.6';
+pt.elements.Calcium.electronegativity = '1.0';
+pt.elements.Radon.electronAffinity = '0';
+pt.elements.Manganese.electronAffinity = '0';
+pt.elements.Zinc.electronAffinity = '0';
+pt.elements.Cadmium.electronAffinity = '0';
+pt.elements.Mercury.electronAffinity = '0';
+pt.elements.Mercury.electronegativity = '2.0';
+pt.elements.Polonium.electronegativity = '2.0';
+pt.elements.Hafnium.electronAffinity = '0';
+pt.elements.Beryllium.electronAffinity = '0';
+pt.elements.Magnesium.electronAffinity = '0';
+pt.elements.Francium.meltingPoint = '300';
 
 export default {
 	name: 'PeriodicTable',

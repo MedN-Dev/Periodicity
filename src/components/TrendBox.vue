@@ -14,6 +14,7 @@ var pt = require('periodic-table');
 
 export default {
 	name: 'TrendBox',
+	props: ['current'],
 	mounted: function() {
 		this.renderChart();
 	},
@@ -21,12 +22,13 @@ export default {
 		return {
 			elements: pt.all(),
 			graph: null,
+			current: this.current, //get this to work
 			trends: [
+				'Ionization Energy',
 				'Electronegativity',
 				'Atomic Radius',
-				'Density',
-				'Ionization Energy',
 				'Electron Affinity',
+				'Density',
 				'Melting Point',
 			],
 			trend: 'Ionization Energy',
@@ -191,7 +193,6 @@ export default {
 						return el.meltingPoint;
 					})
 					.slice(0, 104);
-				trendToGraph[86] = 300; //data inconsistency
 				var backgroundColor = 'rgba(180, 85, 30, 0.2)';
 				var borderColor = 'rgba(180, 85, 30, 0.75)';
 				var pointBackgroundColor = 'rgba(180, 85, 30, 1)';

@@ -1,9 +1,9 @@
 <template>
 	<div class="element" :style="renderStyle(trendToDisplay, element)">
-		<div class="atomicnumber">{{element.ionizationEnergy || "n/a"}}
+		<div class="value">{{renderValue(trendToDisplay, element) || 'unknown'}}
 		</div>
 		<div class="symbol">{{element.symbol}}</div>
-		<div class="name">{{element.name}}</div>
+		<!-- <div class="name">{{element.name}}</div> -->
 	</div>
 </template>
 
@@ -13,6 +13,16 @@ export default {
 	props: ['element', 'trendToDisplay'],
 	data() {
 		return {
+			trend: this.trendToDisplay,
+			conversion: {
+				Electronegativity: 'electronegativity',
+				'Atomic Radius': 'atomicRadius',
+				Density: 'density',
+				'Ionization Energy': 'ionizationEnergy',
+				'Electron Affinity': 'electronAffinity',
+				'Melting Point': 'meltingPoint',
+			},
+			trendToJS: this.conversion[this.trend],
 			selectColor: {
 				Electronegativity: 'rgb(239, 187, 49)',
 				'Atomic Radius': 'rgb(90, 137, 219)',
@@ -35,10 +45,42 @@ export default {
 				return m.toString();
 			}
 		},
+		renderValue(trend, element) {
+			//target for refractor
+			if (trend === 'Ionization Energy') {
+				return element.ionizationEnergy;
+			} else if (trend === 'Electronegativity') {
+				return element.electronegativity;
+			} else if (trend === 'Atomic Radius') {
+				return element.atomicRadius;
+			} else if (trend === 'Electron Affinity') {
+				return element.electronAffinity;
+			} else if (trend === 'Melting Point') {
+				return element.meltingPoint;
+			} else if (trend === 'Density') {
+				return element.density;
+			}
+		},
 		renderStyle(trend, element) {
+			//target for refractor
 			if (trend === 'Ionization Energy') {
 				var opacity = element.ionizationEnergy / 2372;
 				var background = `rgba(155, 37, 60, ${opacity}`;
+			} else if (trend === 'Electronegativity') {
+				var opacity = element.electronegativity / 3.98;
+				var background = `rgba(239, 187, 49, ${opacity}`;
+			} else if (trend === 'Atomic Radius') {
+				var opacity = element.atomicRadius / 225;
+				var background = `rgba(90, 137, 219, ${opacity}`;
+			} else if (trend === 'Electron Affinity') {
+				var opacity = element.electronAffinity / -349;
+				var background = `rgba(175, 26, 163, ${opacity}`;
+			} else if (trend === 'Melting Point') {
+				var opacity = element.meltingPoint / 3823;
+				var background = `rgba(180, 85, 30, ${opacity}`;
+			} else if (trend === 'Density') {
+				var opacity = element.density / 22.65;
+				var background = `rgba(106, 70, 140, ${opacity}`;
 			}
 			return `background: ${background}`;
 		},
@@ -57,17 +99,14 @@ export default {
 	transition: 0.2s;
 	transition-timing-function: ease;
 	background: grey;
-	.atomicnumber {
+	.value {
 		text-align: center;
 		color: rgba(245, 245, 245, 0.5);
 		font-size: 0.65vw;
-	}
-	.name {
-		font-size: 0.66vw;
-		margin-top: -0.5vw;
-		opacity: 0.5;
+		margin-top: 0.5vw;
 	}
 	.symbol {
+		margin-top: -0.2vw;
 		font-weight: 600;
 		font-size: 2vw;
 		opacity: 0.8;

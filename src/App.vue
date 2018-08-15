@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<v-app class="vueWrap">
+		<v-app class="vueWrap" dark>
 			<Navigation/>
 			<div class="tableWrap">
 				<PeriodicTable/>
@@ -48,11 +48,6 @@ sup {
 		background: rgba(35, 41, 55, 1);
 		height: 50vw;
 	}
-}
-.application--dark,
-.list,
-.navigation-drawer {
-	background: #570505 !important;
 }
 .application .theme--light.v-navigation-drawer .v-divider,
 .application .theme--light.v-navigation-drawer:not(.v-navigation-drawer--floating) .v-navigation-drawer__border,
