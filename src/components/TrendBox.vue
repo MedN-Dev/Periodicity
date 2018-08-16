@@ -13,16 +13,61 @@ import Chart from 'chart.js';
 var pt = require('periodic-table');
 
 export default {
+	//todo: fix manually generated tooltip styles
 	name: 'TrendBox',
 	props: ['current'],
 	mounted: function() {
 		this.renderChart();
+	},
+	watch: {
+		current: function() {
+			if (this.tooltip) {
+				var activeElements = this.graph.tooltip._active;
+				var requestedElem = this.graph.getDatasetMeta(this.tooltip[0]).data[this.tooltip[1]];
+				for (var i = 0; i < activeElements.length; i++) {
+					if (requestedElem._index == activeElements[i]._index) {
+						activeElements.splice(i, 1);
+						break;
+					}
+				}
+				this.graph.tooltip._active = activeElements;
+				this.graph.tooltip.update(true);
+				this.graph.draw();
+				this.tooltip = null;
+			}
+
+			if (this.isHoverable()) {
+				var datasetIndex = 0;
+				var pointIndex = this.current.atomicNumber - 1;
+				if (this.trend === 'Atomic Radius') {
+					if (this.current.atomicNumber > 70 && this.current.atomicNumber < 84) {
+						var pointIndex = this.current.atomicNumber - 14;
+					}
+				} else if (this.trend === 'Density') {
+					if (this.current.atomicNumber > 87 && this.current.atomicNumber < 96) {
+						var pointIndex = this.current.atomicNumber - 3;
+					} else if ([96, 97, 98].includes(this.current.atomicNumber)) {
+						var pointIndex = this.current.atomicNumber - 4;
+					}
+				}
+
+				if (this.graph.tooltip._active == undefined) this.graph.tooltip._active = [];
+				var activeElements = this.graph.tooltip._active;
+				var requestedElem = this.graph.getDatasetMeta(datasetIndex).data[pointIndex];
+				activeElements.push(requestedElem);
+				this.graph.tooltip._active = activeElements;
+				this.graph.tooltip.update(true);
+				this.graph.draw();
+				this.tooltip = [datasetIndex, pointIndex];
+			}
+		},
 	},
 	data() {
 		return {
 			elements: pt.all(),
 			graph: null,
 			current: this.current, //get this to work
+			tooltip: null,
 			trends: [
 				'Ionization Energy',
 				'Electronegativity',
@@ -51,6 +96,46 @@ export default {
 		};
 	},
 	methods: {
+		isHoverable() {
+			//prettier-ignore
+			if (this.trend === 'Ionization Energy') {
+				if ([103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118].includes(this.current.atomicNumber)) {
+					return false;
+				} else {
+					return true;
+				}
+			} else if (this.trend === 'Electronegativity') {
+				if ([2, 10, 18, 86, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118].includes(this.current.atomicNumber)) {
+					return false;
+				} else {
+					return true;
+				}
+			} else if (this.trend === 'Atomic Radius') {
+				if ([58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118].includes(this.current.atomicNumber)) {
+					return false;
+				} else {
+					return true;
+				}
+			} else if (this.trend === 'Electron Affinity') {
+				if ([87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118].includes(this.current.atomicNumber)) {
+					return false;
+				} else {
+					return true;
+				}
+			} else if (this.trend === 'Melting Point') {
+				if ([2, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118].includes(this.current.atomicNumber)) {
+					return false;
+				} else {
+					return true;
+				}
+			} else if (this.trend === 'Density') {
+				if ([85, 87, 95, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118].includes(this.current.atomicNumber)) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+		},
 		renderChart() {
 			var atomicNumbers = this.elements
 				.map(function(el) {
@@ -70,10 +155,10 @@ export default {
 						{
 							label: 'Ionization Energy',
 							data: trendToGraph,
-							backgroundColor: 'rgba(110, 60, 70, 0.2)',
-							borderColor: 'rgba(110, 60, 70, 0.95)',
-							pointBackgroundColor: 'rgba(158, 49, 71, 1)',
-							borderWidth: 2,
+							backgroundColor: 'rgba(130, 60, 70, 0.2)',
+							borderColor: 'rgba(130, 60, 70, 0.95)',
+							pointBackgroundColor: 'rgba(188, 49, 71, 1)',
+							borderWidth: 2.5,
 							pointBorderWidth: 0.1,
 							pointRadius: 2.5,
 							pointHoverRadius: 5,
@@ -124,7 +209,7 @@ export default {
 		},
 		updateChart() {
 			this.$root.$emit('displayTrend', this.trend);
-
+			//target for refractor
 			var atomicNumbers = this.elements.map(function(el) {
 				return el.atomicNumber + ' - ' + el.name;
 			});
@@ -151,12 +236,33 @@ export default {
 				var pointBackgroundColor = 'rgba(239, 187, 49, 1)';
 				var label = this.trend;
 			} else if (this.trend === 'Atomic Radius') {
-				atomicNumbers = atomicNumbers.slice(0, 57);
+				atomicNumbers = atomicNumbers
+					.slice(0, 83)
+					.filter(
+						item =>
+							![
+								'58 - Cerium',
+								'59 - Praseodymium',
+								'60 - Neodymium',
+								'61 - Promethium',
+								'62 - Samarium',
+								'63 - Europium',
+								'64 - Gadolinium',
+								'65 - Terbium',
+								'66 - Dysprosium',
+								'67 - Holmium',
+								'68 - Erbium',
+								'69 - Thulium',
+								'70 - Ytterbium',
+							].includes(item)
+					);
 				var trendToGraph = this.elements
 					.map(function(el) {
 						return el.atomicRadius;
 					})
-					.slice(0, 57);
+					.slice(0, 83)
+					.filter(item => item !== 0)
+					.filter(Number);
 				var backgroundColor = 'rgba(90, 137, 219, 0.2)';
 				var borderColor = 'rgba(90, 137, 219, 0.75)';
 				var pointBackgroundColor = 'rgba(90, 137, 219, 1)';
@@ -198,22 +304,19 @@ export default {
 				var pointBackgroundColor = 'rgba(180, 85, 30, 1)';
 				var label = this.trend;
 			}
-			var newData = {
-				labels: atomicNumbers,
-				datasets: [
-					{
-						label: label,
-						data: trendToGraph,
-						backgroundColor: backgroundColor,
-						borderColor: borderColor,
-						pointBackgroundColor: pointBackgroundColor,
-						pointBorderWidth: 0.1,
-						pointRadius: 2.5,
-						pointHoverRadius: 5,
-					},
-				],
-			};
-			this.graph.data = newData;
+			this.graph.data.labels = atomicNumbers;
+			// this.graph.data.datasets[0].data = trendToGraph;
+			// this.graph.data.datasets[0].label = label;
+			// this.graph.data.datasets[0].backgroundColor = backgroundColor;
+			// this.graph.data.datasets[0].borderColor = borderColor;
+			// this.graph.data.datasets[0].pointBackgroundColor = pointBackgroundColor;
+			Object.assign(this.graph.data.datasets[0], {
+				data: trendToGraph,
+				label: label,
+				backgroundColor: backgroundColor,
+				borderColor: borderColor,
+				pointBackgroundColor: pointBackgroundColor,
+			});
 			this.graph.update();
 		},
 	},

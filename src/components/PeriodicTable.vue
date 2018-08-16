@@ -13,11 +13,11 @@
 				</div>
 			</div>
 			<InfoBox v-else-if="current && mode === 'table'" :element="this.current" />
-			<TrendBox v-else :current="current" />
+			<TrendBox v-else :current="currentForTrend" />
 
 		</div>
 		<div class="spacer3"></div>
-		<div v-for="element in elements" :key="element.atomicNumber" v-if="isMain(element)" class="elementWrapper" @mouseenter="currentElement(element)">
+		<div v-for="element in elements" :key="element.atomicNumber" v-if="isMain(element)" class="elementWrapper" @mouseenter="currentElement(element)" @mouseleave="clearCurrentForTrend()">
 			<ElementCard v-if="mode === 'table'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
 			<TrendCard :trendToDisplay="trend" v-else-if="mode === 'trends'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
 		</div>
@@ -25,7 +25,7 @@
 		<div class="spacer5"></div>
 		<div class="spacer6"></div>
 		<div class="spacer7"></div>
-		<div v-for="element in elements" :key="element.atomicNumber" v-if="isBlockF(element)" class="elementWrapper" @mouseenter="currentElement(element)">
+		<div v-for="element in elements" :key="element.atomicNumber" v-if="isBlockF(element)" class="elementWrapper" @mouseenter="currentElement(element)" @mouseleave="clearCurrentForTrend()">
 			<ElementCard v-if="mode === 'table'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
 			<TrendCard :trendToDisplay="trend" v-else-if="mode === 'trends'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
 		</div>
@@ -67,6 +67,7 @@ export default {
 			elements: pt.all(),
 			mode: 'trends',
 			current: null,
+			currentForTrend: null,
 			trend: 'Ionization Energy',
 			points: [
 				{
@@ -148,6 +149,10 @@ export default {
 		},
 		currentElement(element) {
 			this.current = element;
+			this.currentForTrend = element;
+		},
+		clearCurrentForTrend() {
+			this.currentForTrend = null;
 		},
 	},
 	mounted: function() {

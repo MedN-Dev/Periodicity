@@ -12,26 +12,7 @@ export default {
 	name: 'TrendCard',
 	props: ['element', 'trendToDisplay'],
 	data() {
-		return {
-			trend: this.trendToDisplay,
-			conversion: {
-				Electronegativity: 'electronegativity',
-				'Atomic Radius': 'atomicRadius',
-				Density: 'density',
-				'Ionization Energy': 'ionizationEnergy',
-				'Electron Affinity': 'electronAffinity',
-				'Melting Point': 'meltingPoint',
-			},
-			trendToJS: this.conversion[this.trend],
-			selectColor: {
-				Electronegativity: 'rgb(239, 187, 49)',
-				'Atomic Radius': 'rgb(90, 137, 219)',
-				Density: 'rgb(106, 70, 140)',
-				'Ionization Energy': 'rgb(155, 37, 60)',
-				'Electron Affinity': 'rgb(175, 26, 163)',
-				'Melting Point': 'rgb(180, 85, 30)',
-			},
-		};
+		return {};
 	},
 	methods: {
 		convertMass(element) {
@@ -65,7 +46,7 @@ export default {
 			//target for refractor
 			if (trend === 'Ionization Energy') {
 				var opacity = element.ionizationEnergy / 2372;
-				var background = `rgba(155, 37, 60, ${opacity}`;
+				var background = `rgba(195, 37, 60, ${opacity}`;
 			} else if (trend === 'Electronegativity') {
 				var opacity = element.electronegativity / 3.98;
 				var background = `rgba(239, 187, 49, ${opacity}`;
