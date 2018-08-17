@@ -1,6 +1,6 @@
 <template>
 	<div class="wrap">
-		<v-select v-model="trend" :items="trends" label="Periodic Trend" class="select" height="2.5vw" @change="updateChart()" dark :color="selectColor[trend]" :hint="units[trend]" persistent-hint></v-select>
+		<v-select v-model="trend" :items="trends" label="Periodic Trend" class="select" height="2.5vw" @change="renderChart(true)" dark :color="selectColor[trend]" :hint="units[trend]" persistent-hint></v-select>
 		<div class="canvasWrap">
 			<canvas id="trendChart"></canvas>
 		</div>
@@ -17,7 +17,7 @@ export default {
 	name: 'TrendBox',
 	props: ['current'],
 	mounted: function() {
-		this.renderChart();
+		this.renderChart(false);
 	},
 	watch: {
 		current: function() {
@@ -136,80 +136,8 @@ export default {
 				}
 			}
 		},
-		renderChart() {
-			var atomicNumbers = this.elements
-				.map(function(el) {
-					return el.atomicNumber + ' - ' + el.name;
-				})
-				.slice(0, 102);
-			var trendToGraph = this.elements
-				.map(function(el) {
-					return el.ionizationEnergy;
-				})
-				.slice(0, 102);
-			var options = {
-				type: 'line',
-				data: {
-					labels: atomicNumbers,
-					datasets: [
-						{
-							label: 'Ionization Energy',
-							data: trendToGraph,
-							backgroundColor: 'rgba(130, 60, 70, 0.2)',
-							borderColor: 'rgba(130, 60, 70, 0.95)',
-							pointBackgroundColor: 'rgba(188, 49, 71, 1)',
-							borderWidth: 2.5,
-							pointBorderWidth: 0.1,
-							pointRadius: 2.5,
-							pointHoverRadius: 5,
-						},
-					],
-				},
-				options: {
-					layout: {
-						padding: {
-							top: 10,
-							bottom: 10,
-							left: 10,
-							right: 10,
-						},
-					},
-					maintainAspectRatio: false,
-					responsive: true,
-					legend: {
-						display: false,
-					},
-					tooltips: {
-						displayColors: false,
-						backgroundColor: 'rgba(0, 6, 20, 0.7)',
-						titleFontStyle: 'semi-bold',
-						titleFontFamily: "'Open sans', sans-serif",
-						bodyFontFamily: "'Open sans', sans-serif",
-						bodyFontColor: 'rgba(255, 255, 255, 0.7)',
-						xPadding: 10,
-						yPadding: 10,
-						cornerRadius: 0,
-					},
-					scales: {
-						xAxes: [
-							{
-								display: false,
-							},
-						],
-						yAxes: [
-							{
-								display: false,
-							},
-						],
-					},
-				},
-			};
-			var ctx = document.getElementById('trendChart').getContext('2d');
-			this.graph = new Chart(ctx, options);
-		},
-		updateChart() {
+		renderChart(isUpdate) {
 			this.$root.$emit('displayTrend', this.trend);
-			//target for refractor
 			var atomicNumbers = this.elements.map(function(el) {
 				return el.atomicNumber + ' - ' + el.name;
 			});
@@ -304,20 +232,78 @@ export default {
 				var pointBackgroundColor = 'rgba(180, 85, 30, 1)';
 				var label = this.trend;
 			}
-			this.graph.data.labels = atomicNumbers;
-			// this.graph.data.datasets[0].data = trendToGraph;
-			// this.graph.data.datasets[0].label = label;
-			// this.graph.data.datasets[0].backgroundColor = backgroundColor;
-			// this.graph.data.datasets[0].borderColor = borderColor;
-			// this.graph.data.datasets[0].pointBackgroundColor = pointBackgroundColor;
-			Object.assign(this.graph.data.datasets[0], {
-				data: trendToGraph,
-				label: label,
-				backgroundColor: backgroundColor,
-				borderColor: borderColor,
-				pointBackgroundColor: pointBackgroundColor,
-			});
-			this.graph.update();
+			if (isUpdate === false) {
+				var options = {
+					type: 'line',
+					data: {
+						labels: atomicNumbers,
+						datasets: [
+							{
+								label: label,
+								data: trendToGraph,
+								backgroundColor: backgroundColor,
+								borderColor: borderColor,
+								pointBackgroundColor: pointBackgroundColor,
+								borderWidth: 2.5,
+								pointBorderWidth: 0.1,
+								hitRadius: 8,
+								pointRadius: 2.5,
+								pointHoverRadius: 5,
+							},
+						],
+					},
+					options: {
+						layout: {
+							padding: {
+								top: 10,
+								bottom: 10,
+								left: 10,
+								right: 10,
+							},
+						},
+						maintainAspectRatio: false,
+						responsive: true,
+						legend: {
+							display: false,
+						},
+						tooltips: {
+							displayColors: false,
+							backgroundColor: 'rgba(0, 6, 20, 0.7)',
+							titleFontStyle: 'semi-bold',
+							titleFontFamily: "'Open sans', sans-serif",
+							bodyFontFamily: "'Open sans', sans-serif",
+							bodyFontColor: 'rgba(255, 255, 255, 0.7)',
+							xPadding: 10,
+							yPadding: 10,
+							cornerRadius: 0,
+						},
+						scales: {
+							xAxes: [
+								{
+									display: false,
+								},
+							],
+							yAxes: [
+								{
+									display: false,
+								},
+							],
+						},
+					},
+				};
+				var ctx = document.getElementById('trendChart').getContext('2d');
+				this.graph = new Chart(ctx, options);
+			} else {
+				this.graph.data.labels = atomicNumbers;
+				Object.assign(this.graph.data.datasets[0], {
+					data: trendToGraph,
+					label: label,
+					backgroundColor: backgroundColor,
+					borderColor: borderColor,
+					pointBackgroundColor: pointBackgroundColor,
+				});
+				this.graph.update();
+			}
 		},
 	},
 };

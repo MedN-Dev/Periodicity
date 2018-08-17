@@ -1,6 +1,6 @@
 # ptable
 
-Dynamic periodic table to display and graph data from a data set. Built using Vue.js.
+Dynamic periodic table to display and graph data from a data set. Built mainly with Vue.js / Vuetify.js
 
 ## Build Setup
 

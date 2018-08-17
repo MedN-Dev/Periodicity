@@ -52,12 +52,13 @@ export default {
 	}
 	.name {
 		font-size: 0.66vw;
-		margin-top: -0.5vw;
+		margin-top: -0.2vw;
 		opacity: 0.9;
 	}
 	.symbol {
 		font-weight: 600;
 		font-size: 2vw;
+		line-height: 2.5vw;
 	}
 	&:hover {
 		color: rgba(255, 255, 255, 0.9);

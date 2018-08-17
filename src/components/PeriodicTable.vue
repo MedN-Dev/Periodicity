@@ -114,6 +114,11 @@ export default {
 		TrendCard,
 		TrendBox,
 	},
+	watch: {
+		mode: function() {
+			this.trend = "Ionization Energy";
+		}
+	},
 	methods: {
 		isMain(element) {
 			var n = element.atomicNumber;

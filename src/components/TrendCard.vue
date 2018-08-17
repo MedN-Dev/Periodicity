@@ -77,7 +77,7 @@ export default {
 	box-sizing: border-box;
 	text-align: center;
 	padding: 0.2vw;
-	transition: 0.2s;
+	transition: 0.4s;
 	transition-timing-function: ease;
 	background: grey;
 	.value {
@@ -85,6 +85,8 @@ export default {
 		color: rgba(245, 245, 245, 0.5);
 		font-size: 0.65vw;
 		margin-top: 0.5vw;
+		transition: 0.2s;
+		transition-timing-function: ease;
 	}
 	.symbol {
 		margin-top: -0.2vw;
@@ -93,8 +95,10 @@ export default {
 		opacity: 0.8;
 	}
 	&:hover {
-		color: rgba(255, 255, 255, 0.9);
-		// transform: translate(-5px, -5px);
+		color: rgba(255, 255, 255, 0.95);
+		.value {
+			color: rgba(245, 245, 245, 0.8);
+		}
 	}
 }
 </style>

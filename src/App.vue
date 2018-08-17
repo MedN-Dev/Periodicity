@@ -57,16 +57,12 @@ sup {
 }
 .tableWrap {
 	width: 88.1%;
-	margin: auto;
+	margin-left: auto;
+	margin-right: auto;
 	clear: both;
-	height: 100%;
-	padding-bottom: 50vw;
-	/* display: none; */
+	padding-bottom: 4vw;
 }
 .footerWrap {
 	width: 100%;
-	/* position: absolute; */
-	/* clear: both; */
-	/* bottom: 0; */
 }
 </style>
