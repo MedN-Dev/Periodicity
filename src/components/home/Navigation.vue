@@ -1,9 +1,5 @@
 <template>
 	<div class="nav">
-		<!-- <div class="menuWrap">
-            <Menu/>
-        </div> -->
-
 		<h1>
 			<span class="menuWrap">
 				<Menu/>

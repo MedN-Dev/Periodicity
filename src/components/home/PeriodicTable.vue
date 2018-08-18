@@ -116,8 +116,8 @@ export default {
 	},
 	watch: {
 		mode: function() {
-			this.trend = "Ionization Energy";
-		}
+			this.trend = 'Ionization Energy';
+		},
 	},
 	methods: {
 		isMain(element) {

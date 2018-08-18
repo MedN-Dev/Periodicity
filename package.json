@@ -17,6 +17,7 @@
     "sass-loader": "^7.0.3",
     "vue": "^2.5.2",
     "vue-fraction-grid": "^1.1.0",
+    "vue-router": "^3.0.1",
     "vuetify": "^1.1.7"
   },
   "devDependencies": {

@@ -34,46 +34,8 @@ export default {
 			nonMetal: [1, 6, 7, 8, 15, 16, 34],
 			alkali: [3, 11, 19, 37, 55, 87],
 			akaliEarth: [4, 12, 20, 38, 56, 88],
-			transitionMetal: [
-				21,
-				22,
-				23,
-				24,
-				25,
-				26,
-				27,
-				28,
-				29,
-				30,
-				39,
-				40,
-				41,
-				42,
-				43,
-				44,
-				45,
-				46,
-				47,
-				48,
-				72,
-				73,
-				74,
-				75,
-				76,
-				77,
-				78,
-				79,
-				80,
-				104,
-				105,
-				106,
-				107,
-				108,
-				109,
-				110,
-				111,
-				112,
-			],
+			// prettier-ignore
+			transitionMetal: [21, 22,23, 24, 25, 26, 27, 28, 29, 30, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 72, 73, 74, 75, 76, 77, 78, 79, 80, 104, 105, 106, 107, 108, 109, 110, 111, 112],
 			postTransition: [13, 31, 49, 50, 81, 82, 83, 113, 114, 115, 116],
 			metalloid: [5, 14, 32, 33, 51, 52, 84],
 			halogen: [9, 17, 35, 53, 85, 117],
@@ -124,13 +86,13 @@ export default {
 		},
 		getImg(state) {
 			if (state === 'solid') {
-				return require('../assets/solid.png');
+				return require('@/assets/solid.png');
 			} else if (state === 'liquid') {
-				return require('../assets/liquid.png');
+				return require('@/assets/liquid.png');
 			} else if (state === 'gas') {
-				return require('../assets/gas.png');
+				return require('@/assets/gas.png');
 			} else {
-				return require('../assets/unknown.png');
+				return require('@/assets/unknown.png');
 			}
 		},
 		convertMass(element) {
