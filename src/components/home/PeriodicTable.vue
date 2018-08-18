@@ -18,8 +18,11 @@
 		</div>
 		<div class="spacer3"></div>
 		<div v-for="element in elements" :key="element.atomicNumber" v-if="isMain(element)" class="elementWrapper" @mouseenter="currentElement(element)" @mouseleave="clearCurrentForTrend()">
-			<ElementCard v-if="mode === 'table'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
-			<TrendCard :trendToDisplay="trend" v-else-if="mode === 'trends'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
+
+			<router-link :to="{ path: '/element/' + element.atomicNumber}" class="routerWrap">
+				<ElementCard v-if="mode === 'table'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
+				<TrendCard :trendToDisplay="trend" v-else-if="mode === 'trends'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
+			</router-link>
 		</div>
 		<div class="spacer4"></div>
 		<div class="spacer5"></div>
@@ -37,37 +40,17 @@ import ElementCard from './ElementCard';
 import TrendCard from './TrendCard';
 import TrendBox from './TrendBox';
 import InfoBox from './InfoBox';
-var pt = require('periodic-table');
-
-//Data inconsistency overrides
-pt.elements.Helium.electronAffinity = '0';
-pt.elements.Neon.electronAffinity = '0';
-pt.elements.Argon.electronAffinity = '0';
-pt.elements.Krypton.electronAffinity = '0';
-pt.elements.Krypton.electronegativity = '3.0';
-pt.elements.Xenon.electronAffinity = '0';
-pt.elements.Xenon.electronegativity = '2.6';
-pt.elements.Calcium.electronegativity = '1.0';
-pt.elements.Radon.electronAffinity = '0';
-pt.elements.Manganese.electronAffinity = '0';
-pt.elements.Zinc.electronAffinity = '0';
-pt.elements.Cadmium.electronAffinity = '0';
-pt.elements.Mercury.electronAffinity = '0';
-pt.elements.Mercury.electronegativity = '2.0';
-pt.elements.Polonium.electronegativity = '2.0';
-pt.elements.Hafnium.electronAffinity = '0';
-pt.elements.Beryllium.electronAffinity = '0';
-pt.elements.Magnesium.electronAffinity = '0';
-pt.elements.Francium.meltingPoint = '300';
+import Elements from '@/elements';
 
 export default {
 	name: 'PeriodicTable',
 	data() {
 		return {
-			elements: pt.all(),
-			mode: 'trends',
+			elements: Elements,
+			mode: 'table',
 			current: null,
 			currentForTrend: null,
+			buffer: 'display: none',
 			trend: 'Ionization Energy',
 			points: [
 				{
@@ -268,6 +251,11 @@ export default {
 		justify-content: center;
 		width: 4.87vw;
 		height: 4.87vw;
+		.routerWrap {
+			width: 100%;
+			height: 100%;
+			text-decoration: none;
+		}
 	}
 }
 </style>

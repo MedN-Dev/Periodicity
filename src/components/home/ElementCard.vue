@@ -1,7 +1,7 @@
 <template>
 	<div class="element">
 		<div class="atomicnumber">{{element.atomicNumber}}
-			<span>{{convertMass(element)}}</span>
+			<span>{{element.atomicMass}}</span>
 		</div>
 		<div class="symbol">{{element.symbol}}</div>
 		<div class="name">{{element.name}}</div>

@@ -9,13 +9,9 @@
 				<p>{{createState(element.standardState)}}</p>
 				<img v-bind:src="getImg(element.standardState)" v-bind:alt="pic" />
 			</div>
-			<!-- <div class="display">
-				<p class="label">Atomic Number</p>
-				<p class="value">{{element.atomicNumber}}</p>
-			</div> -->
 			<div class="display">
 				<p class="label">Atomic Mass</p>
-				<p class="value">{{convertMass(element)}}</p>
+				<p class="value">{{element.atomicMass}}</p>
 			</div>
 			<div class="display" id="ec">
 				<p class="label">Election Configuration</p>

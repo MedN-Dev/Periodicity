@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Home from '../components/Home'
+import ElementPage from '../components/ElementPage'
 import Router from 'vue-router'
 
 Vue.use(Router);
@@ -7,6 +8,14 @@ Vue.use(Router);
 const routes = [{
     path: '/',
     component: Home
+  },
+  {
+    path: '/element/:id',
+    component: ElementPage
+  },
+  {
+    path: '/hi',
+    component: ElementPage
   },
   {
     path: '*',
