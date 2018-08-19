@@ -1,14 +1,14 @@
 <template>
-    <v-app class="vueWrap" dark>
-        <Navigation/>
-        <div class="tableWrap">
-            <PeriodicTable/>
-        </div>
-        <div style="clear:both;"></div>
-        <div class="footerWrap">
-            <Footer/>
-        </div>
-    </v-app>
+	<v-app class="vueWrap" dark>
+		<Navigation/>
+		<div class="tableWrap">
+			<PeriodicTable/>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="footerWrap">
+			<Footer/>
+		</div>
+	</v-app>
 </template>
 
 <script>

@@ -66,7 +66,7 @@ export default {
 		return {
 			elements: pt.all(),
 			graph: null,
-			current: this.current, //get this to work
+			current: this.current,
 			tooltip: null,
 			trends: [
 				'Ionization Energy',
