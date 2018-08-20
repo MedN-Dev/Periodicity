@@ -29,8 +29,10 @@
 		<div class="spacer6"></div>
 		<div class="spacer7"></div>
 		<div v-for="element in elements" :key="element.atomicNumber" v-if="isBlockF(element)" class="elementWrapper" @mouseenter="currentElement(element)" @mouseleave="clearCurrentForTrend()">
-			<ElementCard v-if="mode === 'table'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
-			<TrendCard :trendToDisplay="trend" v-else-if="mode === 'trends'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
+			<router-link :to="{ path: '/element/' + element.atomicNumber}" class="routerWrap">
+				<ElementCard v-if="mode === 'table'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
+				<TrendCard :trendToDisplay="trend" v-else-if="mode === 'trends'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
+			</router-link>
 		</div>
 	</div>
 </template>

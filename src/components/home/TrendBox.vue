@@ -1,7 +1,7 @@
 <template>
 	<div class="wrap">
-		<v-select v-model="trend" :items="trends" label="Periodic Trend" class="select" height="2.5vw" @change="renderChart(true)" dark :color="selectColor[trend]" :hint="units[trend]" persistent-hint></v-select>
-		<div class="canvasWrap">
+		<v-select v-model="trend" :items="trends" label="Periodic Trend" class="select" @change="renderChart(true)" dark :color="selectColor[trend]" :hint="units[trend]" persistent-hint></v-select>
+		<div class="canvasWrap" :style="'height:'+height">
 			<canvas id="trendChart"></canvas>
 		</div>
 
@@ -15,9 +15,13 @@ var pt = require('periodic-table');
 export default {
 	//todo: fix manually generated tooltip styles
 	name: 'TrendBox',
-	props: ['current'],
+	props: ['current', 'height', 'active'],
 	mounted: function() {
 		this.renderChart(false);
+		// if (this.active) {
+		// 	this.graph.config.data.datasets[0].pointBackgroundColor = 'lightgreen';
+		// 	this.graph.update();
+		// }
 	},
 	watch: {
 		current: function() {

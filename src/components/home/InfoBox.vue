@@ -139,10 +139,7 @@ export default {
 			color: rgba(255, 255, 255, 0.5);
 			font-size: 1.7vw;
 			margin-left: 2vw;
-			&:after {
-				// padding-right: 5px;
-				content: ' ';
-			}
+			font-weight: 400;
 		}
 		.alkali {
 			border-color: rgba(110, 60, 70, 0.65);

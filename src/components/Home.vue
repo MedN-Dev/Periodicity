@@ -28,14 +28,13 @@ export default {
 
 <style lang="scss">
 body {
-	background-color: rgba(35, 41, 55, 1);
 	margin: 0;
 }
 sup {
 	font-size: 1.5vw;
 }
 .application.theme--dark {
-	background: rgba(35, 41, 55, 1);
+	background: rgba(30, 36, 50, 1);
 }
 .application .theme--light.v-navigation-drawer .v-divider,
 .application .theme--light.v-navigation-drawer:not(.v-navigation-drawer--floating) .v-navigation-drawer__border,

@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "atomic-bohr-model": "^1.0.91",
     "chart.js": "^2.7.2",
     "material-design-icons-iconfont": "^3.0.3",
     "node-sass": "^4.9.2",
