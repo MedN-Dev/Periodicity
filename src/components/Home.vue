@@ -13,7 +13,7 @@
 
 <script>
 import PeriodicTable from './home/PeriodicTable';
-import Footer from './home/Footer';
+import Footer from './Footer';
 import Navigation from './home/Navigation';
 
 export default {
@@ -29,9 +29,6 @@ export default {
 <style lang="scss">
 body {
 	margin: 0;
-}
-sup {
-	font-size: 1.5vw;
 }
 .application.theme--dark {
 	background: rgba(30, 36, 50, 1);

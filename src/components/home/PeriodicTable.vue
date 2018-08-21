@@ -166,6 +166,9 @@ export default {
 .spacer2 {
 	grid-area: wa;
 }
+sup {
+	font-size: 1.5vw;
+}
 .infoWrapper {
 	grid-area: wb;
 	.introduction {

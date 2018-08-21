@@ -18,32 +18,124 @@
 						<span :style="'color:'+classify(element)[2]">{{classify(element)[0]}}</span>
 					</p>
 				</v-flex>
-				<v-flex sm4 xs12>
-					<div class="card">
+				<v-flex md4 sm12 xs12>
+					<div class="card" id="bohr">
 						<p>Atom</p>
 						<div id="bohr-model-container"></div>
+						<div style="clear: both"></div>
+						<div class="properties">
+							<div class="property" style="float:left">
+								<span>{{element.atomicNumber}}</span><br/>Atomic Number
+							</div>
+							<div class="property" style="float:right">
+								<span>{{element.atomicMass}}</span><br/>Atomic Mass
+							</div>
+							<div class="property" style="float:left">
+								<span v-html="convertEC(element)"></span><br/>e
+								<sup>-</sup> Configuration
+							</div>
+							<div class="property" style="float:right">
+								<span>{{element.atomicRadius || 'unknown'}}</span><br/>Atomic Radius
+							</div>
+						</div>
 					</div>
 				</v-flex>
-				<v-flex sm8 xs12>
-					<div class="card">
+				<v-flex md8 sm12 xs12>
+					<div class="card" id="graph">
 						<p>Trends</p>
-						<TrendBox height="270px" :active="element.atomicNumber" />
+						<div class="trendWrap">
+							<TrendBox height="21vw" :active="element.atomicNumber" id="graph1" />
+						</div>
+					</div>
+				</v-flex>
+				<v-flex md12>
+					<div class="card" style="height: 26.5vw" id="info">
+						<!-- <p>About</p> -->
+						<v-tabs v-model="active" color="accent" fixed-tabs slider-color="white">
+							<v-tab :key='1'>General</v-tab>
+							<v-tab :key='2'>Properties</v-tab>
+							<!-- <v-tab :key='3'>Atomic</v-tab> -->
+							<v-tab-item :key='1'>
+								<div class="content">
+									<p class="description">{{description}}</p>
+									<div class="generalProperties">
+										<p>Appearance:
+											<span>{{dataJSON[element.atomicNumber - 1].appearance || 'unknown'}}</span>
+										</p>
+										<p>Discovery:
+											<span>{{element.yearDiscovered || 'unknown'}}, by {{dataJSON[element.atomicNumber - 1].discovered_by}}</span>
+										</p>
+									</div>
+								</div>
+							</v-tab-item>
+							<v-tab-item :key='2'>
+								<div class="aboutList">
+									<p>
+										<span>{{element.standardState || 'unknown'}}</span> <br/> Phase at STP
+									</p>
+									<p>
+										<span>{{element.density || 'unknown'}}</span><br/> Density at STP
+									</p>
+									<p>
+										<span>{{element.meltingPoint || 'unknown'}}</span>
+										<span v-if="element.boilingPoint">K</span><br/> Melting Point
+									</p>
+									<p>
+										<span>{{element.boilingPoint || 'unknown'}}</span>
+										<span v-if="element.boilingPoint">K</span><br/> Boiling Point
+									</p>
+									<p>
+										<span>{{dataJSON[element.atomicNumber - 1].molar_heat || 'unknown'}}</span>
+										<span v-if="dataJSON[element.atomicNumber - 1].molar_heat">J/molK</span><br/> Molar Heat
+									</p>
+									<p>
+										<span>{{element.electronegativity || 'unknown'}}</span>
+										<span v-if="element.electronegativity">χr</span><br/> Electronegativity
+									</p>
+									<p>
+										<span>{{element.electronAffinity|| 'unknown'}}</span>
+										<span v-if="element.electronAffinity">kJ/mol</span> <br/> Electron Affinity
+									</p>
+									<p>
+										<span>{{element.oxidationStates || 'unknown'}}</span><br/> Oxidation States
+									</p>
+									<p>
+										<span>{{element.ionizationEnergy || 'unknown'}}</span>
+										<span v-if="element.ionizationEnergy">kJ/mol</span><br/> Ionization Energy
+									</p>
+									<p>
+										<span>{{element.vanDelWaalsRadius || 'unknown'}}
+											<span v-if="element.vanDelWaalsRadius">pm</span>
+										</span><br/> Van Del Waals Radius
+									</p>
+								</div>
+							</v-tab-item>
+							<!-- <v-tab-item :key='3'>Text 3</v-tab-item> -->
+						</v-tabs>
+
 					</div>
 				</v-flex>
 			</v-layout>
 		</v-container>
+		<div class="footerWrap">
+			<Footer width="88%" />
+		</div>
+
 	</v-app>
 </template>
 
 <script>
 import Elements from '@/elements';
 import TrendBox from './home/TrendBox';
+import Footer from './Footer';
 import 'atomic-bohr-model/dist/atomicBohrModel.min.js';
+import General from '@/assets/elementGeneral.json';
 
 export default {
 	name: 'ElementPage',
 	components: {
 		TrendBox,
+		Footer,
 	},
 	mounted() {
 		var atomicConfig = {
@@ -57,7 +149,7 @@ export default {
 			orbitalWidth: 1, // width of orbital paths, default is 0.1
 			orbitalColor: this.classify(this.element)[3], // see electronColor
 			idNumber: 10, // Required int to provide unique Atoms
-			animationTime: 1000, // Time in milliseconds for initial electron animation
+			animationTime: 1400, // Time in milliseconds for initial electron animation
 			// rotateConfig: { speed: 50, clockwise: true }, // Rotates entire Atom with given params
 			orbitalRotationConfig: {
 				// Invokes orbital rotations at initialization
@@ -73,8 +165,16 @@ export default {
 
 		var myAtom = new Atom(atomicConfig);
 	},
+	created: function() {
+		var id = parseInt(this.$route.params.id);
+		this.element = Elements.find(x => x.atomicNumber === id);
+		this.description = General[this.element.atomicNumber - 1].summary;
+	},
 	data() {
 		return {
+			active: null,
+			description: '',
+			dataJSON: General,
 			element: null,
 			nonMetal: [1, 6, 7, 8, 15, 16, 34],
 			alkali: [3, 11, 19, 37, 55, 87],
@@ -121,10 +221,26 @@ export default {
 				return ['Metalloid', 'metalloid', 'rgba(74, 114, 146, 0.9)', 'rgba(34, 74, 106, 1)'];
 			}
 		},
-	},
-	created: function() {
-		var id = parseInt(this.$route.params.id);
-		this.element = Elements.find(x => x.atomicNumber === id);
+		convertEC(element) {
+			var ec = element.electronicConfiguration.split('');
+			var en = element.atomicNumber;
+			for (var i = 0; i < ec.length; i++) {
+				if (ec[i].match(/[a-z]/i) && i > 3) {
+					ec[i + 1] = '<sup style="font-size: 10px">' + ec[i + 1] + '</sup>';
+					if (ec[i + 2] && ec[i + 2] !== ' ') {
+						ec[i + 2] = '<sup style="font-size: 10px">' + ec[i + 2] + '</sup>';
+						i++;
+					}
+					i++;
+				}
+			}
+
+			if (parseInt(element.atomicNumber) > 2) {
+				ec.splice(0, 0, '<span style="color: rgba(255, 255, 255, 0.5)">');
+				ec.splice(5, 0, '</span>');
+			}
+			return ec.join('');
+		},
 	},
 };
 </script>
@@ -133,7 +249,7 @@ export default {
 .application.theme--dark {
 	background: rgba(30, 36, 50, 1);
 	.layout {
-		width: 85%;
+		width: 90%;
 		margin: auto;
 		.name {
 			font-size: 40px;
@@ -150,27 +266,108 @@ export default {
 		.card {
 			text-align: center;
 			background: #282e3c;
-			height: 400px;
-			margin: 15px;
+			height: 32vw;
+			margin: 0.8vw;
+			position: relative;
 			p {
-				font-size: 25px;
+				font-size: 27px;
 				font-weight: 300;
 				padding: 20px;
 			}
 			#bohr-model-container {
 				width: 90%;
-				margin: -20px auto 0 auto;
-				height: 250px;
+				margin: -40px auto 0 auto;
+				// height: auto;
+				height: 18vw;
+				text {
+					font-family: 'Open Sans', sans-serif;
+				}
+			}
+			.trendWrap {
+				position: absolute;
+				width: 100%;
+				bottom: 0.5vw;
+			}
+			.content {
+				padding: 1.5vw;
+				height: 21.5vw;
+				box-sizing: border-box;
+				position: relative;
+				.description {
+					font-size: 18px;
+					font-weight: 300;
+					opacity: 0.8;
+					text-align: left;
+				}
+				.generalProperties {
+					position: absolute;
+					bottom: 0;
+					text-align: left;
+					p {
+						font-size: 18px;
+						padding-top: 0;
+						padding-bottom: 0;
+						opacity: 1;
+						span {
+							opacity: 0.5;
+						}
+					}
+				}
+			}
+			.aboutList {
+				width: 95%;
+				margin: auto;
+				p {
+					margin-top: 2vw;
+					text-align: center;
+					font-weight: 300;
+					font-size: 1.3vw;
+					margin-bottom: 0;
+					float: left;
+					width: 20%;
+					span {
+						font-size: 1.8vw;
+						opacity: 0.7;
+					}
+				}
+			}
+			.properties {
+				position: absolute;
+				width: 100%;
+				bottom: 1vw;
+				sup {
+					margin-left: -3px;
+					font-size: 10px !important;
+				}
+				.property {
+					margin-bottom: 15px;
+					width: 50%;
+					font-weight: 300;
+					opacity: 0.9;
+					font-size: 13px;
+					span {
+						font-size: 15px;
+						font-weight: 300;
+						opacity: 0.6;
+					}
+					sup {
+						margin-left: -3px;
+					}
+				}
 			}
 		}
 	}
+	.footerWrap {
+		width: 100%;
+		margin-top: 2vw;
+	}
 }
-
-@media only screen and (min-width: 1900px) {
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+@media only screen and (max-width: 960px) {
 	.application.theme--dark {
 		background: rgba(30, 36, 50, 1);
 		.layout {
-			width: 1400px;
+			width: 90%;
 			margin: auto;
 			.name {
 				font-size: 40px;
@@ -179,6 +376,7 @@ export default {
 				padding: 30px;
 				line-height: 40px;
 				width: 100%;
+				max-height: 100px;
 				span {
 					font-size: 25px;
 				}
@@ -186,13 +384,242 @@ export default {
 			.card {
 				text-align: center;
 				background: #282e3c;
-				height: 400px;
-				margin: 15px;
+				height: 32vw;
+				margin: 0.8vw;
+				position: relative;
 				p {
-					font-size: 25px;
+					font-size: 27px;
 					font-weight: 300;
 					padding: 20px;
 				}
+				#bohr-model-container {
+					width: 80%;
+					margin: -40px auto 0 auto;
+					// height: auto;
+					height: 18vw;
+					text {
+						font-family: 'Open Sans', sans-serif;
+					}
+				}
+				.trendWrap {
+					position: absolute;
+					width: 100%;
+					bottom: 0.5vw;
+				}
+				.content {
+					padding: 1.5vw;
+					height: 38vw;
+					box-sizing: border-box;
+					position: relative;
+					.description {
+						font-size: 18px;
+						font-weight: 300;
+						opacity: 0.8;
+						text-align: left;
+					}
+					.generalProperties {
+						position: absolute;
+						bottom: 0;
+						text-align: left;
+						p {
+							font-size: 18px;
+							padding-top: 0;
+							padding-bottom: 0;
+							opacity: 1;
+							span {
+								opacity: 0.5;
+							}
+						}
+					}
+				}
+				.aboutList {
+					width: 90%;
+					margin: auto;
+					p {
+						margin-top: 2vw;
+						text-align: center;
+						font-weight: 300;
+						font-size: 1.3vw;
+						margin-bottom: 0;
+						float: left;
+						width: 20%;
+						span {
+							font-size: 1.8vw;
+							opacity: 0.7;
+						}
+					}
+				}
+				.properties {
+					position: absolute;
+					width: 100%;
+					bottom: 3vw;
+					sup {
+						margin-left: -3px;
+						font-size: 10px !important;
+					}
+					.property {
+						margin-bottom: 15px;
+						width: 50%;
+						font-weight: 300;
+						opacity: 0.9;
+						font-size: 20px;
+						span {
+							font-size: 28px;
+							font-weight: 300;
+							opacity: 0.6;
+						}
+						sup {
+							margin-left: -3px;
+						}
+					}
+				}
+			}
+			#bohr {
+				height: 75vw;
+			}
+			#graph {
+				height: 35vw;
+			}
+			#info {
+				height: 45vw !important;
+			}
+		}
+		.footerWrap {
+			width: 100%;
+			margin-top: 2vw;
+		}
+	}
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+@media only screen and (max-width: 800px) {
+	.application.theme--dark {
+		background: rgba(30, 36, 50, 1);
+		.layout {
+			width: 90%;
+			margin: auto;
+			.name {
+				margin-bottom: 40px;
+			}
+			.card {
+				.content {
+					padding: 1.5vw;
+					height: 53vw;
+					box-sizing: border-box;
+					position: relative;
+					.description {
+						font-size: 18px;
+						font-weight: 300;
+						opacity: 0.8;
+						text-align: left;
+					}
+					.generalProperties {
+						position: absolute;
+						bottom: 0;
+						text-align: left;
+						p {
+							font-size: 18px;
+							padding-top: 0;
+							padding-bottom: 0;
+							opacity: 1;
+							span {
+								opacity: 0.5;
+							}
+						}
+					}
+				}
+				.aboutList {
+					width: 90%;
+					margin: auto;
+					p {
+						margin-top: 1vw;
+						text-align: center;
+						font-weight: 300;
+						font-size: 15px;
+						margin-bottom: 0;
+						float: left;
+						width: 33.3%;
+						span {
+							font-size: 19px;
+							opacity: 0.7;
+						}
+					}
+				}
+			}
+			#bohr {
+				height: 85vw;
+			}
+			#graph {
+				height: 40vw;
+			}
+			#info {
+				height: 60vw !important;
+			}
+		}
+	}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+@media only screen and (max-width: 600px) {
+	.application.theme--dark {
+		background: rgba(30, 36, 50, 1);
+		.layout {
+			width: 90%;
+			margin: auto;
+			.name {
+				margin-bottom: 40px;
+			}
+			.card {
+				.content {
+					padding: 1.5vw;
+					height: 75vw;
+					box-sizing: border-box;
+					position: relative;
+					.description {
+						font-size: 18px;
+						font-weight: 300;
+						opacity: 0.8;
+						text-align: left;
+					}
+					.generalProperties {
+						position: absolute;
+						bottom: 0;
+						text-align: left;
+						p {
+							font-size: 18px;
+							padding-top: 0;
+							padding-bottom: 0;
+							opacity: 1;
+							span {
+								opacity: 0.5;
+							}
+						}
+					}
+				}
+				.aboutList {
+					width: 95%;
+					margin: auto;
+					p {
+						margin-top: 1vw;
+						text-align: center;
+						font-weight: 300;
+						font-size: 15px;
+						margin-bottom: 0;
+						float: left;
+						width: 33.3%;
+						span {
+							font-size: 19px;
+							opacity: 0.7;
+						}
+					}
+				}
+			}
+			#bohr {
+				height: 85vw;
+			}
+			#graph {
+				height: 40vw;
+			}
+			#info {
+				height: 85vw !important;
 			}
 		}
 	}

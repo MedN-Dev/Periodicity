@@ -1,13 +1,10 @@
 <template>
-	<v-footer height="auto">
+	<v-footer height="auto" :style="'width: '+ width">
 		<v-layout justify-center row wrap>
-			<!-- <v-btn v-for="link in links" :key="link" color="white" flat round>
-                {{ link }}
-            </v-btn> -->
 			<v-card-text class="pt-0 about">
-				Periodic.io is an open source application that displays and graphs periodic data in order to make chemical statistics more accessible. It runs on Vue.js and uses data from Chris Andrejewski's npm package.
+				Periodic.io is an MIT licensed, open-source application that animates and graphs periodic data in order to make the visualization of chemical concepts easier. It uses Vue.js for API structuring and data from Chris Andrejewski's npm package. Source code can be found
+				<a href="https://github.com/kadinzhang/Periodic-Table">here</a>.
 			</v-card-text>
-
 			<v-flex primary lighten-2 py-3 text-xs-center xs12 class="copy">
 				&copy;2018 -
 				<span>Kadin Zhang</span>
@@ -19,6 +16,7 @@
 <script>
 export default {
 	name: 'Footer',
+	props: ['width'],
 	data: () => ({
 		links: ['Help', '', 'Team', '', 'Github'],
 	}),
@@ -32,14 +30,15 @@ export default {
 }
 footer {
 	color: rgba(255, 255, 255, 0.7);
-	font-size: 1.1vw;
+	font-size: 16px;
 	padding-bottom: 10px;
-	width: 70%;
+
 	margin: 0.5vw auto auto auto;
 }
 .v-footer {
 	background: rgba(30, 36, 50, 1);
 	color: rgba(255, 255, 255, 0.8);
+	width: 70%;
 	.copy {
 		background: none !important;
 		border: none !important;
@@ -49,7 +48,12 @@ footer {
 	padding: 0;
 	border-bottom: 0.5px solid rgba(240, 240, 240, 0.5);
 	padding-bottom: 20px;
-	font-size: 1vw;
+	font-size: 15px;
+	a {
+		text-decoration: none;
+		color: lightslategray;
+		font-style: italic;
+	}
 }
 span {
 	font-weight: 400;

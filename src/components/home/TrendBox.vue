@@ -1,6 +1,6 @@
 <template>
 	<div class="wrap">
-		<v-select v-model="trend" :items="trends" label="Periodic Trend" class="select" @change="renderChart(true)" dark :color="selectColor[trend]" :hint="units[trend]" persistent-hint></v-select>
+		<v-select v-model="trend" :items="trends" label="Periodic Trend" class="select" @change="renderChart(true)" dark :color="selectColor[trend]" :hint="units[trend]" persistent-hint transition="scale-transition" origin="top right"></v-select>
 		<div class="canvasWrap" :style="'height:'+height">
 			<canvas id="trendChart"></canvas>
 		</div>
