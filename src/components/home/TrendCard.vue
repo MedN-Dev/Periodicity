@@ -101,4 +101,28 @@ export default {
 		}
 	}
 }
+@media only screen and (max-width: 600px) {
+	.element {
+		color: rgba(245, 245, 245, 0.55);
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+		text-align: center;
+		padding: 0.4vw;
+		.value {
+			text-align: center;
+			color: rgba(245, 245, 245, 0.5);
+			font-size: 1.2vw;
+			margin-top: 1vw;
+			transition: 0.2s;
+			transition-timing-function: ease;
+		}
+		.symbol {
+			margin-top: -0.4vw;
+			font-weight: 600;
+			font-size: 4vw;
+			opacity: 0.8;
+		}
+	}
+}
 </style>

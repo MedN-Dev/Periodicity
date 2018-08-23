@@ -33,10 +33,10 @@ body {
 .application.theme--dark {
 	background: rgba(30, 36, 50, 1);
 }
-.application .theme--light.v-navigation-drawer .v-divider,
-.application .theme--light.v-navigation-drawer:not(.v-navigation-drawer--floating) .v-navigation-drawer__border,
-.theme--light .v-navigation-drawer .v-divider,
-.theme--light .v-navigation-drawer:not(.v-navigation-drawer--floating) .v-navigation-drawer__border {
+.application .theme--dark.v-navigation-drawer .v-divider,
+.application .theme--dark.v-navigation-drawer:not(.v-navigation-drawer--floating) .v-navigation-drawer__border,
+.theme--dark .v-navigation-drawer .v-divider,
+.theme--dark .v-navigation-drawer:not(.v-navigation-drawer--floating) .v-navigation-drawer__border {
 	background: none;
 }
 .tableWrap {
@@ -48,5 +48,15 @@ body {
 }
 .footerWrap {
 	width: 100%;
+}
+@media only screen and (max-width: 600px) {
+	.tableWrap {
+		width: 100%;
+		// margin-left: auto;
+		// margin-right: auto;
+		overflow: scroll;
+		clear: both;
+		padding-bottom: 4vw;
+	}
 }
 </style>

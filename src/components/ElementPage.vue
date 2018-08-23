@@ -1,17 +1,6 @@
 <template>
 	<v-app dark>
 		<v-container fluid grid-list-md style="padding: 0; height: 100%">
-			<!-- <v-toolbar flat color="primary" style="text-align: center">
-                <v-btn style="margin-left: 30%" icon @click="previousElement()">
-                    <v-icon style="font-size: 40px">
-                        navigate_before</v-icon>
-                </v-btn>
-                <v-toolbar-title style="margin:auto;width:50%" justify-center>{{element.atomicNumber + " - " + element.name}}</v-toolbar-title>
-                <v-btn style="margin-right: 30%" icon @click="nextElement()">
-                    <v-icon style="font-size: 40px">
-                        navigate_next</v-icon>
-                </v-btn>
-            </v-toolbar> -->
 			<v-layout row wrap class="layout">
 				<v-flex xs12>
 					<p class="name">{{element.name}}<br/>
@@ -50,11 +39,9 @@
 				</v-flex>
 				<v-flex md12>
 					<div class="card" style="height: 26.5vw" id="info">
-						<!-- <p>About</p> -->
 						<v-tabs v-model="active" color="accent" fixed-tabs slider-color="white">
 							<v-tab :key='1'>General</v-tab>
 							<v-tab :key='2'>Properties</v-tab>
-							<!-- <v-tab :key='3'>Atomic</v-tab> -->
 							<v-tab-item :key='1'>
 								<div class="content">
 									<p class="description">{{description}}</p>
@@ -89,15 +76,15 @@
 										<span v-if="dataJSON[element.atomicNumber - 1].molar_heat">J/molK</span><br/> Molar Heat
 									</p>
 									<p>
+										<span>{{element.bondingType || 'unknown'}}</span><br/> Bonding Type
+									</p>
+									<p>
 										<span>{{element.electronegativity || 'unknown'}}</span>
 										<span v-if="element.electronegativity">χr</span><br/> Electronegativity
 									</p>
 									<p>
 										<span>{{element.electronAffinity|| 'unknown'}}</span>
 										<span v-if="element.electronAffinity">kJ/mol</span> <br/> Electron Affinity
-									</p>
-									<p>
-										<span>{{element.oxidationStates || 'unknown'}}</span><br/> Oxidation States
 									</p>
 									<p>
 										<span>{{element.ionizationEnergy || 'unknown'}}</span>
@@ -110,7 +97,6 @@
 									</p>
 								</div>
 							</v-tab-item>
-							<!-- <v-tab-item :key='3'>Text 3</v-tab-item> -->
 						</v-tabs>
 
 					</div>
@@ -141,25 +127,23 @@ export default {
 		var atomicConfig = {
 			containerId: '#bohr-model-container',
 			numElectrons: this.element.atomicNumber,
-			nucleusRadius: 30,
+			// nucleusRadius: 30,
 			nucleusColor: this.classify(this.element)[3],
-			electronRadius: 3, // Default value is 3
-			electronColor: this.classify(this.element)[2], // See nucleusColor
-			orbitalSpacing: 10, // If not specified will be a 1/3rd of the nucleusRadius
-			orbitalWidth: 1, // width of orbital paths, default is 0.1
-			orbitalColor: this.classify(this.element)[3], // see electronColor
-			idNumber: 10, // Required int to provide unique Atoms
-			animationTime: 1400, // Time in milliseconds for initial electron animation
-			// rotateConfig: { speed: 50, clockwise: true }, // Rotates entire Atom with given params
+			electronRadius: 2.5,
+			electronColor: this.classify(this.element)[2],
+			// orbitalSpacing: 10,
+			orbitalWidth: 1,
+			orbitalColor: this.classify(this.element)[3],
+			idNumber: 10,
+			animationTime: 1400,
 			orbitalRotationConfig: {
-				// Invokes orbital rotations at initialization
 				pattern: {
-					alternating: false, // Alternate orbital direction
-					clockwise: false, // Direction for all orbitals
-					preset: 'cubedPositive', // String to set pattern (see Features section)
+					alternating: false,
+					clockwise: false,
+					preset: 'cubedNegative',
 				},
 			},
-			symbolOffset: 8, // When modifying nucleus radius this may need adjusting
+			symbolOffset: 8,
 			drawSymbol: true,
 		};
 
@@ -234,7 +218,6 @@ export default {
 					i++;
 				}
 			}
-
 			if (parseInt(element.atomicNumber) > 2) {
 				ec.splice(0, 0, '<span style="color: rgba(255, 255, 255, 0.5)">');
 				ec.splice(5, 0, '</span>');
@@ -394,9 +377,9 @@ export default {
 				}
 				#bohr-model-container {
 					width: 80%;
-					margin: -40px auto 0 auto;
+					margin: -70px auto 0 auto;
 					// height: auto;
-					height: 18vw;
+					height: 58vw;
 					text {
 						font-family: 'Open Sans', sans-serif;
 					}
@@ -528,18 +511,18 @@ export default {
 					}
 				}
 				.aboutList {
-					width: 90%;
+					width: 100%;
 					margin: auto;
 					p {
-						margin-top: 1vw;
+						margin-top: 0vw;
 						text-align: center;
 						font-weight: 300;
-						font-size: 15px;
+						font-size: 12px;
 						margin-bottom: 0;
 						float: left;
 						width: 33.3%;
 						span {
-							font-size: 19px;
+							font-size: 15px;
 							opacity: 0.7;
 						}
 					}
@@ -591,6 +574,96 @@ export default {
 							span {
 								opacity: 0.5;
 							}
+						}
+					}
+				}
+				.aboutList {
+					width: 95%;
+					margin: auto;
+					p {
+						margin-top: 1vw;
+						text-align: center;
+						font-weight: 300;
+						font-size: 15px;
+						margin-bottom: 0;
+						float: left;
+						width: 33.3%;
+						span {
+							font-size: 19px;
+							opacity: 0.7;
+						}
+					}
+				}
+			}
+			#bohr {
+				height: 85vw;
+			}
+			#graph {
+				height: 40vw;
+			}
+			#info {
+				height: 85vw !important;
+			}
+		}
+	}
+}
+@media only screen and (max-width: 560px) {
+	.application.theme--dark {
+		background: rgba(30, 36, 50, 1);
+		.layout {
+			width: 90%;
+			margin: auto;
+			.name {
+				margin-bottom: 40px;
+			}
+			.card {
+				.content {
+					padding: 1.5vw;
+					height: 75vw;
+					box-sizing: border-box;
+					position: relative;
+					.description {
+						font-size: 18px;
+						font-weight: 300;
+						opacity: 0.8;
+						text-align: left;
+					}
+					.generalProperties {
+						position: absolute;
+						bottom: 0;
+						text-align: left;
+						p {
+							font-size: 18px;
+							padding-top: 0;
+							padding-bottom: 0;
+							opacity: 1;
+							span {
+								opacity: 0.5;
+							}
+						}
+					}
+				}
+				.properties {
+					position: absolute;
+					width: 100%;
+					bottom: 3vw;
+					sup {
+						margin-left: -3px;
+						font-size: 10px !important;
+					}
+					.property {
+						margin-bottom: 15px;
+						width: 50%;
+						font-weight: 300;
+						opacity: 0.9;
+						font-size: 14px;
+						span {
+							font-size: 22px;
+							font-weight: 300;
+							opacity: 0.6;
+						}
+						sup {
+							margin-left: -3px;
 						}
 					}
 				}

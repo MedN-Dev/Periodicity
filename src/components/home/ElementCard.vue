@@ -124,4 +124,38 @@ export default {
 		background-color: rgba(62, 41, 73, 0.4);
 	}
 }
+@media only screen and (max-width: 600px) {
+	.element {
+		color: rgba(245, 245, 245, 0.55);
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+		text-align: center;
+		padding: 0.4vw;
+		transition: 0.2s;
+		transition-timing-function: ease;
+		.atomicnumber {
+			text-align: left;
+			color: rgba(245, 245, 245, 0.5);
+			font-size: 1.2vw;
+			span {
+				float: right;
+				color: rgba(245, 245, 245, 0.3);
+			}
+		}
+		.name {
+			font-size: 1.3vw;
+			margin-top: 0;
+			opacity: 0.9;
+		}
+		.symbol {
+			font-weight: 600;
+			font-size: 4vw;
+			line-height: 4.5vw;
+		}
+		&:hover {
+			color: rgba(255, 255, 255, 0.9);
+		}
+	}
+}
 </style>

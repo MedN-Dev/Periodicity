@@ -2,7 +2,7 @@
 	<v-footer height="auto" :style="'width: '+ width">
 		<v-layout justify-center row wrap>
 			<v-card-text class="pt-0 about">
-				Periodic.io is an MIT licensed, open-source application that animates and graphs periodic data in order to make the visualization of chemical concepts easier. It uses Vue.js for API structuring and data from Chris Andrejewski's npm package. Source code can be found
+				Periodicity.io is an MIT licensed, open-source application that animates and graphs periodic data in order to make the visualization of chemical concepts easier. It uses Vue.js for API structuring and data from primarily Chris Andrejewski's npm package. Source code can be found
 				<a href="https://github.com/kadinzhang/Periodic-Table">here</a>.
 			</v-card-text>
 			<v-flex primary lighten-2 py-3 text-xs-center xs12 class="copy">
@@ -32,13 +32,12 @@ footer {
 	color: rgba(255, 255, 255, 0.7);
 	font-size: 16px;
 	padding-bottom: 10px;
-
-	margin: 0.5vw auto auto auto;
+	margin: 1vw auto auto auto;
 }
 .v-footer {
 	background: rgba(30, 36, 50, 1);
 	color: rgba(255, 255, 255, 0.8);
-	width: 70%;
+	width: 88%;
 	.copy {
 		background: none !important;
 		border: none !important;
@@ -57,5 +56,16 @@ footer {
 }
 span {
 	font-weight: 400;
+}
+@media only screen and (max-width: 600px) {
+	.v-footer {
+		background: rgba(30, 36, 50, 1);
+		color: rgba(255, 255, 255, 0.8);
+		width: 90%;
+		.copy {
+			background: none !important;
+			border: none !important;
+		}
+	}
 }
 </style>

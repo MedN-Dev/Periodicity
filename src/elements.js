@@ -29,7 +29,7 @@ pt.all().forEach(function (element) {
     element.atomicMass = parseFloat(m).toFixed(3);
     element.atomicMass = parseFloat(element.atomicMass);
   } else {
-    element.atomicMass = m.toString();
+    element.atomicMass = parseFloat(m);
   }
 });
 

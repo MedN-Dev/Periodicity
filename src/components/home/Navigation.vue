@@ -37,4 +37,20 @@ export default {
 		font-size: 2.3vw;
 	}
 }
+@media only screen and (max-width: 600px) {
+	.nav {
+		width: 100%;
+		padding: 7vw;
+		.menuWrap {
+			float: left;
+		}
+		h1 {
+			width: 100%;
+			text-align: center;
+			color: rgba(255, 255, 255, 0.9);
+			font-weight: 300;
+			font-size: 4.3vw;
+		}
+	}
+}
 </style>

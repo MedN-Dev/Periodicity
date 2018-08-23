@@ -1,32 +1,48 @@
 <template>
 	<div class="box">
 		<div class="header">
-			<span class="name" :class="classify(element)[1]">{{element.atomicNumber + ' - ' + element.name}}</span>
+			<span class="name" :class="classify(element)[1]">{{element.atomicNumber + ' - ' + element.name}}</span><br/>
 			<span class="classification" :class="classify(element)[1]">{{classify(element)[0]}}</span>
 		</div>
 		<div class="info">
 			<div class="state">
-				<p>{{createState(element.standardState)}}</p>
+				<p>Phase</p>
 				<img v-bind:src="getImg(element.standardState)" v-bind:alt="pic" />
 			</div>
 			<div class="display">
 				<p class="label">Atomic Mass</p>
 				<p class="value">{{element.atomicMass}}</p>
 			</div>
-			<div class="display" id="ec">
+			<div class="display">
+				<p class="label">Density</p>
+				<p class="value">{{element.density || 'unknown'}}</p>
+			</div>
+			<!-- <div class="properties">
+				<p>
+					<span>{{element.density || 'unknown'}}</span> <br/> Density</p>
+				<p>
+					<span>{{general[element.atomicNumber - 1].molar_heat || 'unknown'}}</span> <br/> Molar Heat</p>
+			</div> -->
+			<div id="bohr-model-container"></div>
+			<!-- <div class="display" id="ec">
 				<p class="label">Election Configuration</p>
 				<p v-html="convertEC(element)" class="value"></p>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
 
 <script>
+import 'atomic-bohr-model/dist/atomicBohrModel.min.js';
+import General from '@/assets/elementGeneral.json';
+
 export default {
 	name: 'InfoBox',
 	props: ['element', 'mass'],
 	data() {
 		return {
+			atomGraph: null,
+			general: General,
 			nonMetal: [1, 6, 7, 8, 15, 16, 34],
 			alkali: [3, 11, 19, 37, 55, 87],
 			akaliEarth: [4, 12, 20, 38, 56, 88],
@@ -40,33 +56,77 @@ export default {
 			actinoid: [89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103],
 		};
 	},
+	watch: {
+		element: function() {
+			this.atomGraph.destroy();
+			Object.assign(this.atomGraph, {
+				numElectrons: this.element.atomicNumber,
+				nucleusColor: this.classify(this.element)[3],
+				electronColor: this.classify(this.element)[2],
+				orbitalColor: this.classify(this.element)[3],
+			});
+			var orbitalRotationConfig = {
+				pattern: {
+					alternating: false,
+					clockwise: false,
+					preset: 'cubedNegative',
+				},
+			};
+
+			this.atomGraph._redrawAtom();
+			this.atomGraph.rotateOrbitals(orbitalRotationConfig);
+		},
+	},
+	mounted() {
+		var atomicConfig = {
+			containerId: '#bohr-model-container',
+			numElectrons: this.element.atomicNumber,
+			nucleusColor: this.classify(this.element)[3],
+			electronRadius: 2.5,
+			electronColor: this.classify(this.element)[2],
+			orbitalWidth: 1,
+			orbitalColor: this.classify(this.element)[3],
+			idNumber: 10,
+			animationTime: 0,
+			orbitalRotationConfig: {
+				pattern: {
+					alternating: false,
+					clockwise: false,
+					preset: 'cubedNegative',
+				},
+			},
+			symbolOffset: 7,
+			drawSymbol: true,
+		};
+		this.atomGraph = new Atom(atomicConfig);
+	},
 	methods: {
 		classify(element) {
 			var n = element.atomicNumber;
 			if (this.nonMetal.includes(n)) {
 				if ([7, 8].indexOf(n) > -1) {
-					return ['Diatomic Nonmetal', 'nonMetal'];
+					return ['Diatomic Nonmetal', 'nonMetal', 'rgba(86, 88, 148, 0.9)', 'rgba(56, 58, 118, 1)'];
 				} else {
-					return ['Polyatomic Nonmetal', 'nonMetal'];
+					return ['Polyatomic Nonmetal', 'nonMetal', 'rgba(86, 88, 148, 0.9)', 'rgba(56, 58, 118, 1)'];
 				}
 			} else if (this.alkali.includes(n)) {
-				return ['Alkali Metal', 'alkali'];
+				return ['Alkali Metal', 'alkali', 'rgba(120, 80, 90, 0.9)', 'rgba(90, 50, 60, 1)'];
 			} else if (this.akaliEarth.includes(n)) {
-				return ['Alkali Earth Metal', 'alkaliEarth'];
+				return ['Alkali Earth Metal', 'alkaliEarth', 'rgba(133, 113, 101, 0.9)', 'rgba(83, 63, 51, 1)'];
 			} else if (this.transitionMetal.includes(n)) {
-				return ['Transition Metal', 'transitionMetal'];
+				return ['Transition Metal', 'transitionMetal', 'rgba(99, 113, 138, 0.9)', 'rgba(59, 73, 98, 1)'];
 			} else if (this.postTransition.includes(n)) {
-				return ['Post Transition Metal', 'postTransition'];
+				return ['Post Transition Metal', 'postTransition', 'rgba(74, 134, 119, 0.9)', 'rgba(34, 84, 79, 1)'];
 			} else if (this.halogen.includes(n)) {
-				return ['Halogen', 'halogen'];
+				return ['Halogen', 'halogen', 'rgba(142, 140, 201, 0.9)', 'rgba(52, 50, 101, 1)'];
 			} else if (this.noble.includes(n)) {
-				return ['Noble Gas', 'noble'];
+				return ['Noble Gas', 'noble', 'rgba(136, 100, 170, 0.9)', 'rgba(86, 50, 120, 1)'];
 			} else if (this.lanthanoid.includes(n)) {
-				return ['Lanthanoid', 'lanthanoid'];
+				return ['Lanthanoid', 'lanthanoid', 'rgba(120, 107, 151, 0.9)', 'rgba(70, 57, 101, 1)'];
 			} else if (this.actinoid.includes(n)) {
-				return ['Actinoid', 'actinoid'];
+				return ['Actinoid', 'actinoid', 'rgba(102, 81, 113, 0.9)', 'rgba(62, 41, 73, 1)'];
 			} else if (this.metalloid.includes(n)) {
-				return ['Metalloid', 'metalloid'];
+				return ['Metalloid', 'metalloid', 'rgba(74, 114, 146, 0.9)', 'rgba(34, 74, 106, 1)'];
 			}
 		},
 		createState(state) {
@@ -130,15 +190,19 @@ export default {
 .box {
 	width: 100%;
 	height: 100%;
-	padding-top: 1vw;
+	padding-top: 0;
 	padding-left: 3vw;
 	.header {
 		margin-left: 0.5vw;
-
+		font-weight: 300;
+		height: 5vw;
+		line-height: 2.2vw;
+		// text-align: center;
 		.classification {
 			color: rgba(255, 255, 255, 0.5);
-			font-size: 1.7vw;
-			margin-left: 2vw;
+			font-size: 1.3vw;
+			line-height: 1vw;
+			// margin-left: 2vw;
 			font-weight: 400;
 		}
 		.alkali {
@@ -183,9 +247,7 @@ export default {
 		}
 		.name {
 			color: rgba(255, 255, 255, 0.85);
-			font-size: 2vw;
-			border-bottom-width: 0.3vw;
-			border-bottom-style: solid;
+			font-size: 2.1vw;
 		}
 	}
 	.info {
@@ -193,20 +255,22 @@ export default {
 		.state {
 			width: 20%;
 			margin-left: -5%;
+			margin-right: -1%;
 			display: block;
 			float: left;
 			p {
-				font-size: 1.5vw;
+				font-size: 1.3vw;
 				color: rgba(255, 255, 255, 0.5);
+				font-weight: 300;
 				text-align: center;
 				margin-bottom: 0;
-				margin-top: 2.3vw;
+				margin-top: 1.5vw;
 			}
 			img {
-				width: 42%;
-				opacity: 0.8;
+				width: 41%;
+				opacity: 0.7;
 				margin: auto;
-				margin-top: 0.3vw;
+				margin-top: 0.4vw;
 				display: block;
 			}
 		}
@@ -214,20 +278,19 @@ export default {
 			display: block;
 			width: 25%;
 			float: left;
+			font-weight: 300;
 			.label {
-				font-size: 1.5vw;
-				color: rgba(255, 255, 255, 0.6);
+				font-size: 1.3vw;
+				color: rgba(255, 255, 255, 0.5);
 				text-align: center;
 				margin-bottom: 0;
-				margin-top: 2.3vw;
+				margin-top: 1.5vw;
 			}
 			.value {
-				font-size: 2.7vw;
-				font-weight: 400;
+				font-size: 2.2vw;
 				text-align: center;
-				margin: 0.5vw auto 0 auto;
-				color: rgba(255, 255, 255, 0.8);
-				font-weight: 300;
+				margin: 0.6vw auto 0 auto;
+				color: rgba(255, 255, 255, 0.7);
 			}
 		}
 		#ec {
@@ -236,6 +299,74 @@ export default {
 				margin-top: 0.5vw;
 			}
 		}
+		#bohr-model-container {
+			z-index: 0;
+			position: absolute;
+			margin-top: -9vw;
+			margin-left: 26.5vw;
+			width: 21vw;
+			height: 21vw;
+			float: right;
+		}
+		.properties {
+			float: left;
+			margin-left: 1vw;
+			text-align: center;
+			width: 12vw;
+		}
+	}
+}
+// @media only screen and (max-width: 1250px) {
+// 	.box {
+// 		.info {
+// 			#bohr-model-container {
+// 				margin-top: -5.5vw;
+// 				margin-right: 2vw;
+// 				width: 160px;
+// 				height: 160px;
+// 			}
+// 		}
+// 	}
+// }
+// @media only screen and (max-width: 1110px) {
+// 	.box {
+// 		.info {
+// 			#bohr-model-container {
+// 				margin-top: -6vw;
+// 				margin-right: 2vw;
+// 				width: 150px;
+// 				height: 150px;
+// 			}
+// 		}
+// 	}
+// }
+// @media only screen and (max-width: 1040px) {
+// 	.box {
+// 		.info {
+// 			#bohr-model-container {
+// 				margin-top: -5vw;
+// 				margin-right: 2vw;
+// 				width: 130px;
+// 				height: 130px;
+// 			}
+// 		}
+// 	}
+// }
+// @media only screen and (max-width: 900px) {
+// 	.box {
+// 		.info {
+// 			#bohr-model-container {
+// 				margin-top: -5vw;
+// 				margin-right: 2vw;
+// 				width: 110px;
+// 				height: 110px;
+// 			}
+// 		}
+// 	}
+// }
+@media only screen and (max-width: 600px) {
+	.box {
+		display: none;
 	}
 }
 </style>

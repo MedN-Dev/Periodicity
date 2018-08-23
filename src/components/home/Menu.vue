@@ -1,6 +1,6 @@
 <template>
 	<v-layout wrap>
-		<v-btn class="menuBtn" @click.stop="drawer = !drawer">
+		<v-btn class="menuBtn" @click.stop="drawer = !drawer" depressed>
 			<v-icon class="menuIcon">menu</v-icon>
 		</v-btn>
 		<v-navigation-drawer v-model="drawer" absolute temporary class="drawer" style="width: 13vw">
@@ -50,7 +50,7 @@ export default {
 	float: left;
 	padding: 0;
 	min-width: 0;
-	margin-left: 3.5vw;
+	margin: 0 0 0 3.5vw;
 	width: 3.5vw;
 	height: 3.5vw;
 	background: none !important;
@@ -108,6 +108,73 @@ export default {
 		}
 	}
 	width: 10vw;
+}
+@media only screen and (max-width: 600px) {
+	.menuBtn {
+		position: absolute;
+		float: left;
+		padding: 0;
+		min-width: 0;
+		margin: 0;
+		width: 7vw;
+		height: 7vw;
+		background: none !important;
+		color: rgba(255, 255, 255, 0.8);
+	}
+	.menuIcon {
+		font-size: 6vw;
+	}
+	.v-navigation-drawer--close.v-navigation-drawer--temporary {
+		transform: translateX(-43vw) !important;
+	}
+	.drawer {
+		// padding: 0.4vw;
+		// padding-top: 1.5vw;
+		background: rgba(60, 66, 80, 0.85);
+		max-width: none;
+		padding: 0;
+		h1 {
+			font-weight: 300;
+			font-size: 4.5vw;
+			margin-top: 2vw;
+			border-bottom: 0.5px solid rgba(205, 205, 205, 0.5);
+			height: 10vw;
+		}
+		.v-navigation-drawer__border {
+			width: 0 !important;
+		}
+		.item {
+			color: rgba(255, 255, 255, 0.7);
+			height: 15vw;
+			// padding: 1vw;
+			transition: 0.25s;
+			&:hover {
+				cursor: pointer;
+				background: rgba(80, 86, 100, 0.9);
+			}
+			.icon {
+				float: left;
+				font-size: 7vw;
+				padding: 2vw;
+				padding-top: 3vw;
+				color: rgb(79, 133, 133);
+				opacity: 1;
+			}
+			.trends {
+				color: rgb(175, 77, 159);
+			}
+			.text {
+				text-align: left;
+				float: right;
+				font-size: 3vw;
+				width: 28vw;
+				padding: 4.5vw 1.5vw 0 0;
+				margin: 0;
+				font-weight: 200;
+			}
+		}
+		width: 40vw !important;
+	}
 }
 </style>
 

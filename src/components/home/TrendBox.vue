@@ -13,15 +13,15 @@ import Chart from 'chart.js';
 var pt = require('periodic-table');
 
 export default {
-	//todo: fix manually generated tooltip styles
+	//warning: dozens of hours of hard coding--blood, sweat, and tears--due to data inconsistencies below
 	name: 'TrendBox',
 	props: ['current', 'height', 'active'],
 	mounted: function() {
 		this.renderChart(false);
-		// if (this.active) {
-		// 	this.graph.config.data.datasets[0].pointBackgroundColor = 'lightgreen';
-		// 	this.graph.update();
-		// }
+		if (this.active) {
+			this.graph.config.data.datasets[0]['pointBackgroundColor'][this.active - 1] = 'white';
+			this.graph.update();
+		}
 	},
 	watch: {
 		current: function() {
@@ -46,6 +46,16 @@ export default {
 				if (this.trend === 'Atomic Radius') {
 					if (this.current.atomicNumber > 70 && this.current.atomicNumber < 84) {
 						var pointIndex = this.current.atomicNumber - 14;
+					}
+				} else if (this.trend === 'Electronegativity') {
+					if ([3, 4, 5, 6, 7, 8, 9].includes(this.current.atomicNumber)) {
+						var pointIndex = this.current.atomicNumber - 2;
+					} else if ([11, 12, 13, 14, 15, 16, 17].includes(this.current.atomicNumber)) {
+						var pointIndex = this.current.atomicNumber - 3;
+					} else if (this.current.atomicNumber > 18 && this.current.atomicNumber < 86) {
+						var pointIndex = this.current.atomicNumber - 4;
+					} else if (this.current.atomicNumber > 86) {
+						var pointIndex = this.current.atomicNumber - 5;
 					}
 				} else if (this.trend === 'Density') {
 					if (this.current.atomicNumber > 87 && this.current.atomicNumber < 96) {
@@ -154,18 +164,28 @@ export default {
 					.slice(0, 102);
 				var backgroundColor = 'rgba(155, 37, 60, 0.2)';
 				var borderColor = 'rgba(155, 37, 60, 0.75)';
-				var pointBackgroundColor = 'rgba(155, 37, 60, 1)';
+				var pointBackgroundColor = [];
+				for (var i = 0; i < trendToGraph.length; i++) {
+					pointBackgroundColor.push('rgba(155, 37, 60, 1)');
+				}
 				var label = this.trend;
 			} else if (this.trend === 'Electronegativity') {
-				atomicNumbers = atomicNumbers.slice(0, 103);
+				atomicNumbers = atomicNumbers
+					.slice(0, 103)
+					.filter(item => !['2 - Helium', '10 - Neon', '18 - Argon', '86 - Radon'].includes(item));
 				var trendToGraph = this.elements
 					.map(function(el) {
 						return el.electronegativity;
 					})
-					.slice(0, 103);
+					.slice(0, 103)
+					.filter(item => item !== 0)
+					.filter(Number);
 				var backgroundColor = 'rgba(239, 187, 49, 0.2)';
 				var borderColor = 'rgba(239, 187, 49, 0.75)';
-				var pointBackgroundColor = 'rgba(239, 187, 49, 1)';
+				var pointBackgroundColor = [];
+				for (var i = 0; i < trendToGraph.length; i++) {
+					pointBackgroundColor.push('rgba(239, 187, 49, 1)');
+				}
 				var label = this.trend;
 			} else if (this.trend === 'Atomic Radius') {
 				atomicNumbers = atomicNumbers
@@ -197,7 +217,10 @@ export default {
 					.filter(Number);
 				var backgroundColor = 'rgba(90, 137, 219, 0.2)';
 				var borderColor = 'rgba(90, 137, 219, 0.75)';
-				var pointBackgroundColor = 'rgba(90, 137, 219, 1)';
+				var pointBackgroundColor = [];
+				for (var i = 0; i < trendToGraph.length; i++) {
+					pointBackgroundColor.push('rgba(90, 137, 219, 1)');
+				}
 				var label = this.trend;
 			} else if (this.trend === 'Electron Affinity') {
 				atomicNumbers = atomicNumbers.slice(0, 86);
@@ -208,7 +231,10 @@ export default {
 					.slice(0, 86);
 				var backgroundColor = 'rgba(175, 26, 163, 0.2)';
 				var borderColor = 'rgba(175, 26, 163, 0.6)';
-				var pointBackgroundColor = 'rgba(175, 26, 163, 1)';
+				var pointBackgroundColor = [];
+				for (var i = 0; i < trendToGraph.length; i++) {
+					pointBackgroundColor.push('rgba(175, 26, 163, 1)');
+				}
 				var label = this.trend;
 			} else if (this.trend === 'Density') {
 				atomicNumbers = atomicNumbers
@@ -222,7 +248,10 @@ export default {
 				trendToGraph = trendToGraph.filter(item => item !== 0).filter(Number);
 				var backgroundColor = 'rgba(106, 70, 140, 0.2)';
 				var borderColor = 'rgba(106, 70, 140, 0.75)';
-				var pointBackgroundColor = 'rgba(136, 100, 170, 1)';
+				var pointBackgroundColor = [];
+				for (var i = 0; i < trendToGraph.length; i++) {
+					pointBackgroundColor.push('rgba(136, 100, 170, 1)');
+				}
 				var label = this.trend;
 			} else if (this.trend === 'Melting Point') {
 				atomicNumbers = atomicNumbers.slice(0, 104);
@@ -233,7 +262,10 @@ export default {
 					.slice(0, 104);
 				var backgroundColor = 'rgba(180, 85, 30, 0.2)';
 				var borderColor = 'rgba(180, 85, 30, 0.75)';
-				var pointBackgroundColor = 'rgba(180, 85, 30, 1)';
+				var pointBackgroundColor = [];
+				for (var i = 0; i < trendToGraph.length; i++) {
+					pointBackgroundColor.push('rgba(180, 85, 30, 1)');
+				}
 				var label = this.trend;
 			}
 			if (isUpdate === false) {
@@ -250,7 +282,7 @@ export default {
 								pointBackgroundColor: pointBackgroundColor,
 								borderWidth: 2.5,
 								pointBorderWidth: 0.1,
-								hitRadius: 8,
+								hitRadius: 5,
 								pointRadius: 2.5,
 								pointHoverRadius: 5,
 							},
@@ -306,6 +338,29 @@ export default {
 					borderColor: borderColor,
 					pointBackgroundColor: pointBackgroundColor,
 				});
+				var index = this.active - 1;
+				if (this.trend === 'Atomic Radius') {
+					if (this.active > 70 && this.active < 84) {
+						index = this.active - 14;
+					}
+				} else if (this.trend === 'Electronegativity') {
+					if ([3, 4, 5, 6, 7, 8, 9].includes(this.active)) {
+						index = this.active - 2;
+					} else if ([11, 12, 13, 14, 15, 16, 17].includes(this.active)) {
+						index = this.active - 3;
+					} else if (this.active > 18 && this.active < 86) {
+						index = this.active - 4;
+					} else if (this.active > 86) {
+						index = this.active - 6;
+					}
+				} else if (this.trend === 'Density') {
+					if (this.active > 87 && this.active < 96) {
+						index = this.active - 3;
+					} else if ([96, 97, 98].includes(this.active)) {
+						index = this.active - 4;
+					}
+				}
+				this.graph.config.data.datasets[0]['pointBackgroundColor'][index] = 'white';
 				this.graph.update();
 			}
 		},
@@ -359,6 +414,31 @@ export default {
 			margin: auto;
 			height: 100%;
 			z-index: 100;
+		}
+	}
+}
+@media only screen and (max-width: 600px) {
+	.wrap {
+		.select {
+			width: 40% !important;
+			opacity: 0.9;
+			margin: auto;
+			margin-top: 2vw;
+			height: 1.2vw;
+			.v-messages {
+				height: 14px;
+			}
+		}
+		.canvasWrap {
+			display: block;
+			height: 25.8vw;
+			// margin-bottom: -11vw;
+			#trendChart {
+				width: 100%;
+				margin: auto;
+				height: 100%;
+				z-index: 100;
+			}
 		}
 	}
 }
