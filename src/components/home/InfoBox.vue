@@ -17,17 +17,7 @@
 				<p class="label">Density</p>
 				<p class="value">{{element.density || 'unknown'}}</p>
 			</div>
-			<!-- <div class="properties">
-				<p>
-					<span>{{element.density || 'unknown'}}</span> <br/> Density</p>
-				<p>
-					<span>{{general[element.atomicNumber - 1].molar_heat || 'unknown'}}</span> <br/> Molar Heat</p>
-			</div> -->
 			<div id="bohr-model-container"></div>
-			<!-- <div class="display" id="ec">
-				<p class="label">Election Configuration</p>
-				<p v-html="convertEC(element)" class="value"></p>
-			</div> -->
 		</div>
 	</div>
 </template>
@@ -105,28 +95,28 @@ export default {
 			var n = element.atomicNumber;
 			if (this.nonMetal.includes(n)) {
 				if ([7, 8].indexOf(n) > -1) {
-					return ['Diatomic Nonmetal', 'nonMetal', 'rgba(86, 88, 148, 0.9)', 'rgba(56, 58, 118, 1)'];
+					return ['Diatomic Nonmetal', 'nonMetal', 'rgba(91, 93, 153, 0.9)', 'rgba(51, 53, 113, 1)'];
 				} else {
 					return ['Polyatomic Nonmetal', 'nonMetal', 'rgba(86, 88, 148, 0.9)', 'rgba(56, 58, 118, 1)'];
 				}
 			} else if (this.alkali.includes(n)) {
-				return ['Alkali Metal', 'alkali', 'rgba(120, 80, 90, 0.9)', 'rgba(90, 50, 60, 1)'];
+				return ['Alkali Metal', 'alkali', 'rgba(120, 80, 90, 0.9)', 'rgba(85, 45, 55, 1)'];
 			} else if (this.akaliEarth.includes(n)) {
 				return ['Alkali Earth Metal', 'alkaliEarth', 'rgba(133, 113, 101, 0.9)', 'rgba(83, 63, 51, 1)'];
 			} else if (this.transitionMetal.includes(n)) {
-				return ['Transition Metal', 'transitionMetal', 'rgba(99, 113, 138, 0.9)', 'rgba(59, 73, 98, 1)'];
+				return ['Transition Metal', 'transitionMetal', 'rgba(99, 113, 138, 0.9)', 'rgba(54, 68, 93, 1)'];
 			} else if (this.postTransition.includes(n)) {
 				return ['Post Transition Metal', 'postTransition', 'rgba(74, 134, 119, 0.9)', 'rgba(34, 84, 79, 1)'];
 			} else if (this.halogen.includes(n)) {
-				return ['Halogen', 'halogen', 'rgba(142, 140, 201, 0.9)', 'rgba(52, 50, 101, 1)'];
+				return ['Halogen', 'halogen', 'rgba(122, 120, 181, 0.9)', 'rgba(57, 55, 106, 1)'];
 			} else if (this.noble.includes(n)) {
-				return ['Noble Gas', 'noble', 'rgba(136, 100, 170, 0.9)', 'rgba(86, 50, 120, 1)'];
+				return ['Noble Gas', 'noble', 'rgba(136, 100, 170, 0.9)', 'rgba(76, 40, 110, 1)'];
 			} else if (this.lanthanoid.includes(n)) {
 				return ['Lanthanoid', 'lanthanoid', 'rgba(120, 107, 151, 0.9)', 'rgba(70, 57, 101, 1)'];
 			} else if (this.actinoid.includes(n)) {
-				return ['Actinoid', 'actinoid', 'rgba(102, 81, 113, 0.9)', 'rgba(62, 41, 73, 1)'];
+				return ['Actinoid', 'actinoid', 'rgba(110, 89, 121, 0.9)', 'rgba(62, 41, 73, 1)'];
 			} else if (this.metalloid.includes(n)) {
-				return ['Metalloid', 'metalloid', 'rgba(74, 114, 146, 0.9)', 'rgba(34, 74, 106, 1)'];
+				return ['Metalloid', 'metalloid', 'rgba(74, 114, 146, 0.9)', 'rgba(27, 67, 99, 1)'];
 			}
 		},
 		createState(state) {
@@ -162,26 +152,6 @@ export default {
 				return m.toString();
 			}
 		},
-		convertEC(element) {
-			var ec = element.electronicConfiguration.split('');
-			var en = element.atomicNumber;
-			for (var i = 0; i < ec.length; i++) {
-				if (ec[i].match(/[a-z]/i) && i > 3) {
-					ec[i + 1] = '<sup>' + ec[i + 1] + '</sup>';
-					if (ec[i + 2] && ec[i + 2] !== ' ') {
-						ec[i + 2] = '<sup>' + ec[i + 2] + '</sup>';
-						i++;
-					}
-					i++;
-				}
-			}
-
-			if (parseInt(element.atomicNumber) > 2) {
-				ec.splice(0, 0, '<span style="color: rgba(255, 255, 255, 0.3);">');
-				ec.splice(5, 0, '</span>');
-			}
-			return ec.join('');
-		},
 	},
 };
 </script>
@@ -197,14 +167,13 @@ export default {
 		font-weight: 300;
 		height: 5vw;
 		line-height: 2.2vw;
-		// text-align: center;
 		.classification {
 			color: rgba(255, 255, 255, 0.5);
 			font-size: 1.3vw;
 			line-height: 1vw;
-			// margin-left: 2vw;
 			font-weight: 400;
 		}
+		//TODO: refractor into object
 		.alkali {
 			border-color: rgba(110, 60, 70, 0.65);
 			color: rgba(120, 80, 90, 0.8);
@@ -302,7 +271,7 @@ export default {
 		#bohr-model-container {
 			z-index: 0;
 			position: absolute;
-			margin-top: -9vw;
+			margin-top: -9.2vw;
 			margin-left: 26.5vw;
 			width: 21vw;
 			height: 21vw;
@@ -316,54 +285,6 @@ export default {
 		}
 	}
 }
-// @media only screen and (max-width: 1250px) {
-// 	.box {
-// 		.info {
-// 			#bohr-model-container {
-// 				margin-top: -5.5vw;
-// 				margin-right: 2vw;
-// 				width: 160px;
-// 				height: 160px;
-// 			}
-// 		}
-// 	}
-// }
-// @media only screen and (max-width: 1110px) {
-// 	.box {
-// 		.info {
-// 			#bohr-model-container {
-// 				margin-top: -6vw;
-// 				margin-right: 2vw;
-// 				width: 150px;
-// 				height: 150px;
-// 			}
-// 		}
-// 	}
-// }
-// @media only screen and (max-width: 1040px) {
-// 	.box {
-// 		.info {
-// 			#bohr-model-container {
-// 				margin-top: -5vw;
-// 				margin-right: 2vw;
-// 				width: 130px;
-// 				height: 130px;
-// 			}
-// 		}
-// 	}
-// }
-// @media only screen and (max-width: 900px) {
-// 	.box {
-// 		.info {
-// 			#bohr-model-container {
-// 				margin-top: -5vw;
-// 				margin-right: 2vw;
-// 				width: 110px;
-// 				height: 110px;
-// 			}
-// 		}
-// 	}
-// }
 @media only screen and (max-width: 600px) {
 	.box {
 		display: none;

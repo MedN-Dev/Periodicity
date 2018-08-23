@@ -5,11 +5,15 @@
 		<div class="infoWrapper">
 			<div v-if="!current & mode === 'table'" class="introduction">
 				<div class="features">
-					<!-- <h2>Features</h2> -->
-					<div v-for="point in points" :key="point.description" :class="point.class+' point'">
-						<v-icon :style="{color: point.color}">{{point.icon}}</v-icon>
-						<p>{{point.description}}</p>
+
+					<div class="tips">
+						<h1>Welcome To Periodicity</h1>
+						<div v-for="point in points" :key="point.description" :class="point.class+' point'">
+							<v-icon :style="{color: point.color}">{{point.icon}}</v-icon>
+							<p>{{point.description}}</p>
+						</div>
 					</div>
+					<div id="bohr-model-container"></div>
 				</div>
 			</div>
 			<InfoBox v-else-if="current && mode === 'table'" :element="current" />
@@ -18,7 +22,7 @@
 
 		</div>
 		<div class="spacer3"></div>
-		<div v-for="element in elements" :key="element.atomicNumber" v-if="isMain(element)" class="elementWrapper" @mouseenter="currentElement(element)" @mouseleave="clearCurrentForTrend()" @click.right="beginSumming(element)" oncontextmenu="return false;">
+		<div v-for="element in elements" :key="element.atomicNumber" v-if="isMain(element)" class="elementWrapper" @mouseenter="currentElement(element)" @mouseleave="clearCurrentForTrend()" @click.right="beginSumming(element)" oncontextmenu="return false;" style="z-index: 2">
 
 			<router-link :to="{ path: '/element/' + element.atomicNumber}" class="routerWrap">
 				<ElementCard v-if="mode === 'table' || mode === 'addition'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
@@ -29,7 +33,7 @@
 		<div class="spacer5"></div>
 		<div class="spacer6"></div>
 		<div class="spacer7"></div>
-		<div v-for="element in elements" :key="element.atomicNumber" v-if="isBlockF(element)" class="elementWrapper" @mouseenter="currentElement(element)" @mouseleave="clearCurrentForTrend()" @click.right="beginSumming(element)" oncontextmenu="return false;">
+		<div v-for="element in elements" :key="element.atomicNumber" v-if="isBlockF(element)" class="elementWrapper" @mouseenter="currentElement(element)" @mouseleave="clearCurrentForTrend()" @click.right="beginSumming(element)" oncontextmenu="return false;" style="z-index: 2">
 			<router-link :to="{ path: '/element/' + element.atomicNumber}" class="routerWrap">
 				<ElementCard v-if="mode === 'table' || mode === 'addition'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
 				<TrendCard :trendToDisplay="trend" v-else-if="mode === 'trends'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
@@ -54,6 +58,7 @@ export default {
 		return {
 			elements: Elements,
 			mode: 'table',
+			atomGraph: null,
 			toBeSummed: [],
 			toBeSummedElements: [],
 			current: null,
@@ -64,20 +69,22 @@ export default {
 				{
 					class: 'point1',
 					icon: 'open_in_new',
-					description: 'Hover an element to view basic information, or click to view its detailed page',
-					color: 'crimson',
+					description: 'Hover an element to view general information, or click to see its detailed page',
+					color: 'lightblue',
 				},
 				{
 					class: 'point2',
 					icon: 'poll',
-					description: 'Use the menu to access the periodic trends mode, and graph trend values',
+					description:
+						'Use the menu to access the periodic trends mode, where you can graph various properties of elements',
 					color: 'lightsteelblue',
 				},
 				{
 					class: 'point4',
 					icon: 'library_add',
-					description: 'Easily find the mass of a compound by right clicking elements to sum their masses',
-					color: 'purple',
+					description:
+						'Easily find the masses of compounds by right clicking the elements of which they comprise',
+					color: 'slategrey',
 				},
 			],
 			nonMetal: [1, 6, 7, 8, 15, 16, 34],
@@ -99,6 +106,43 @@ export default {
 		TrendCard,
 		TrendBox,
 		AddBox,
+	},
+	mounted: function() {
+		this.$root.$on('trends', text => {
+			this.mode = 'trends';
+		});
+		this.$root.$on('table', text => {
+			this.mode = 'table';
+		});
+		this.$root.$on('displayTrend', text => {
+			this.trend = text;
+		});
+		this.$root.$on('exitAddition', text => {
+			this.mode = 'table';
+			this.toBeSummed = [];
+			this.toBeSummedElements = [];
+		});
+		var atomicConfig = {
+			containerId: '#bohr-model-container',
+			numElectrons: 78,
+			nucleusColor: 'rgba(54, 68, 93, 1)',
+			electronRadius: 2.5,
+			electronColor: 'rgba(99, 113, 138, 0.9)',
+			orbitalWidth: 1,
+			orbitalColor: 'rgba(54, 68, 93, 1)',
+			idNumber: 10,
+			animationTime: 1700,
+			orbitalRotationConfig: {
+				pattern: {
+					alternating: false,
+					clockwise: false,
+					preset: 'cubedNegative',
+				},
+			},
+			symbolOffset: 7,
+			drawSymbol: true,
+		};
+		this.atomGraph = new Atom(atomicConfig);
 	},
 	watch: {
 		mode: function() {
@@ -163,22 +207,6 @@ export default {
 			this.currentForTrend = null;
 		},
 	},
-	mounted: function() {
-		this.$root.$on('trends', text => {
-			this.mode = 'trends';
-		});
-		this.$root.$on('table', text => {
-			this.mode = 'table';
-		});
-		this.$root.$on('displayTrend', text => {
-			this.trend = text;
-		});
-		this.$root.$on('exitAddition', text => {
-			this.mode = 'table';
-			this.toBeSummed = [];
-			this.toBeSummedElements = [];
-		});
-	},
 };
 </script>
 
@@ -202,40 +230,49 @@ sup {
 		.features {
 			text-align: center;
 			color: rgba(255, 255, 255, 0.8);
-			width: 45.5vw;
-			h2 {
-				width: 20%;
-				font-weight: 300;
-				padding-bottom: 1.3vw;
-				font-size: 1.5vw;
-				border-bottom: 0.5px solid rgba(205, 205, 205, 0.5);
-				margin: auto auto 0.8vw auto;
-			}
-			.point {
-				width: 33.3%;
-				float: left;
-				padding: 0.3vw;
-				font-weight: 200;
-				font-size: 1vw;
-				p {
-					color: rgba(255, 255, 255, 0.6);
+			width: 100%;
+			height: 100%;
+			margin-top: -0.5vw;
+			.tips {
+				width: 69%;
+				h1 {
+					width: 50%;
+					margin: auto;
+					margin-bottom: 0.7vw;
+					font-weight: 300;
+					padding-bottom: 0.8vw;
+					font-size: 1.5vw;
+					border-bottom: 0.5px solid rgba(205, 205, 205, 0.5);
+					text-align: center;
 				}
-				i {
-					font-size: 2.2vw;
-					opacity: 0.5;
+				.point {
+					width: 100%;
+					float: right;
+					text-align: left;
+					height: 3.3vw;
+					padding: 0.4vw;
+					font-weight: 300;
+					font-size: 1vw;
+					p {
+						color: rgba(255, 255, 255, 0.6);
+						line-height: 1.3vw;
+					}
+					i {
+						float: left;
+						font-size: 2.5vw;
+						opacity: 0.7;
+						margin-right: 0.7vw;
+					}
 				}
 			}
-			.point1 {
-				color: crimson !important;
-			}
-			.point2 {
-				color: lightsteelblue;
-			}
-			.point3 {
-				color: green;
-			}
-			.point4 {
-				color: purple;
+			#bohr-model-container {
+				z-index: 0;
+				position: absolute;
+				margin-top: -7.3vw;
+				margin-left: 28vw;
+				width: 21vw;
+				height: 21vw;
+				float: right;
 			}
 		}
 	}

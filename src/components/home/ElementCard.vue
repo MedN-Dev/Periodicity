@@ -64,6 +64,7 @@ export default {
 		color: rgba(255, 255, 255, 0.9);
 	}
 }
+//TODO: refractor styles into object + v-style
 .alkali {
 	background-color: rgba(110, 60, 70, 0.65);
 	&:hover {

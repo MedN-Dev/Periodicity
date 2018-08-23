@@ -23,6 +23,8 @@ const routes = [{
   }
 ]
 
+const Foo = () => import('@/components/ElementPage.vue')
+
 export default new Router({
   routes,
   mode: 'history'

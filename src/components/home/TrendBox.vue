@@ -13,7 +13,7 @@ import Chart from 'chart.js';
 var pt = require('periodic-table');
 
 export default {
-	//warning: dozens of hours of hard coding--blood, sweat, and tears--due to data inconsistencies below
+	//warning: dozens of painful hours of hard coding due to data inconsistencies below
 	name: 'TrendBox',
 	props: ['current', 'height', 'active'],
 	mounted: function() {
