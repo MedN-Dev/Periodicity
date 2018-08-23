@@ -23,8 +23,8 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ### Built With
 
 - [vue.js](https://github.com/vuejs/vue)
-  -- [vuetify.js](https://github.com/vuetifyjs/vuetify)
-  -- [vue-router](https://github.com/vuejs/vue-router)
+  - [vuetify.js](https://github.com/vuetifyjs/vuetify)
+  - [vue-router](https://github.com/vuejs/vue-router)
 - [webpack](https://github.com/webpack/webpack)
 
 ### Open-Source Technologies Used
