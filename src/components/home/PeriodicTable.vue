@@ -3,9 +3,8 @@
 		<div class="spacer1"></div>
 		<div class="spacer2"></div>
 		<div class="infoWrapper">
-			<div v-if="!current & mode === 'table'" class="introduction">
+			<div v-if="!current & mode === 'table'" class="introduction" :style="loadHandler">
 				<div class="features">
-
 					<div class="tips">
 						<h1>Welcome To Periodicity</h1>
 						<div v-for="point in points" :key="point.description" :class="point.class+' point'">
@@ -23,7 +22,6 @@
 		</div>
 		<div class="spacer3"></div>
 		<div v-for="element in elements" :key="element.atomicNumber" v-if="isMain(element)" class="elementWrapper" @mouseenter="currentElement(element)" @mouseleave="clearCurrentForTrend()" @click.right="beginSumming(element)" oncontextmenu="return false;" style="z-index: 2">
-
 			<router-link :to="{ path: '/element/' + element.atomicNumber}" class="routerWrap">
 				<ElementCard v-if="mode === 'table' || mode === 'addition'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
 				<TrendCard :trendToDisplay="trend" v-else-if="mode === 'trends'" :element="element" :key="element.atomicNumber" :class="createElementClass(element)" />
@@ -56,6 +54,7 @@ export default {
 	name: 'PeriodicTable',
 	data() {
 		return {
+			loadHandler: '',
 			elements: Elements,
 			mode: 'table',
 			atomGraph: null,
@@ -108,6 +107,33 @@ export default {
 		AddBox,
 	},
 	mounted: function() {
+		setTimeout(() => {
+			this.loadHandler = 'opacity: 1; margin-top: 0';
+		}, 200);
+		setTimeout(() => {
+			var atomicConfig = {
+				containerId: '#bohr-model-container',
+				numElectrons: 78,
+				nucleusColor: 'rgba(54, 68, 93, 1)',
+				electronRadius: 2.5,
+				electronColor: 'rgba(99, 113, 138, 0.9)',
+				orbitalWidth: 1,
+				orbitalColor: 'rgba(54, 68, 93, 1)',
+				idNumber: 10,
+				animationTime: 1700,
+				orbitalRotationConfig: {
+					pattern: {
+						alternating: false,
+						clockwise: false,
+						preset: 'cubedNegative',
+					},
+				},
+				symbolOffset: 7,
+				drawSymbol: true,
+			};
+			this.atomGraph = new Atom(atomicConfig);
+		}, 600);
+
 		this.$root.$on('trends', text => {
 			this.mode = 'trends';
 		});
@@ -122,27 +148,6 @@ export default {
 			this.toBeSummed = [];
 			this.toBeSummedElements = [];
 		});
-		var atomicConfig = {
-			containerId: '#bohr-model-container',
-			numElectrons: 78,
-			nucleusColor: 'rgba(54, 68, 93, 1)',
-			electronRadius: 2.5,
-			electronColor: 'rgba(99, 113, 138, 0.9)',
-			orbitalWidth: 1,
-			orbitalColor: 'rgba(54, 68, 93, 1)',
-			idNumber: 10,
-			animationTime: 1700,
-			orbitalRotationConfig: {
-				pattern: {
-					alternating: false,
-					clockwise: false,
-					preset: 'cubedNegative',
-				},
-			},
-			symbolOffset: 7,
-			drawSymbol: true,
-		};
-		this.atomGraph = new Atom(atomicConfig);
 	},
 	watch: {
 		mode: function() {
@@ -227,6 +232,9 @@ sup {
 		height: 100%;
 		padding: 1vw 1.5vw 0 1.5vw;
 		line-height: 1.3vw;
+		opacity: 0;
+		transition: 1s;
+		margin-top: 0.5vw;
 		.features {
 			text-align: center;
 			color: rgba(255, 255, 255, 0.8);
@@ -249,10 +257,10 @@ sup {
 					width: 100%;
 					float: right;
 					text-align: left;
-					height: 3.3vw;
+					height: 3.1vw;
 					padding: 0.4vw;
 					font-weight: 300;
-					font-size: 1vw;
+					font-size: 0.9vw;
 					p {
 						color: rgba(255, 255, 255, 0.6);
 						line-height: 1.3vw;
@@ -344,51 +352,7 @@ sup {
 	.infoWrapper {
 		grid-area: wb;
 		.introduction {
-			width: 100%;
-			height: 100%;
-			padding: 1.5vw;
-			padding-top: 1vw;
-			line-height: 1.5vw;
 			display: none;
-			.features {
-				text-align: center;
-				color: rgba(255, 255, 255, 0.8);
-				width: 91vw;
-				h2 {
-					width: 20%;
-					font-weight: 300;
-					padding-bottom: 1vw;
-					font-size: 1.7vw;
-					border-bottom: 0.5px solid rgba(205, 205, 205, 0.5);
-					margin: auto auto 0.8vw auto;
-				}
-				.point {
-					width: 25%;
-					float: left;
-					padding: 0.3vw;
-					font-weight: 200;
-					font-size: 1vw;
-					p {
-						color: rgba(255, 255, 255, 0.6);
-					}
-					i {
-						font-size: 2.2vw;
-						opacity: 0.5;
-					}
-				}
-				.point1 {
-					color: crimson !important;
-				}
-				.point2 {
-					color: lightsteelblue;
-				}
-				.point3 {
-					color: green;
-				}
-				.point4 {
-					color: purple;
-				}
-			}
 		}
 	}
 	.spacer3 {

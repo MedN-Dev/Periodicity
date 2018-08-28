@@ -27,12 +27,9 @@ export default {
 		elements: function() {
 			var equation = '';
 			for (const element of this.elements) {
-				if (this.elements.lastIndexOf(element) !== 0) {
-					equation += ' + ';
-				}
-				equation += element;
+				equation += `${element} + `;
 			}
-			this.equation = equation;
+			this.equation = equation.slice(0, -3);
 			this.sum = parseFloat(this.elements.reduce((a, b) => a + b, 0).toFixed(3));
 			var compoundObject = this.symbols.reduce(function(acc, symbol) {
 				if (acc[symbol]) {
