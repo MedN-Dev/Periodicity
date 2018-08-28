@@ -3,7 +3,9 @@
 		<h1>
 			<span class="menuWrap">
 				<Menu/>
-			</span>{{header}}</h1>
+			</span>
+			<span class="titleWrap">Periodic Table of the Elements</span>
+		</h1>
 	</div>
 </template>
 
@@ -11,11 +13,6 @@
 import Menu from './Menu';
 export default {
 	name: 'Navigation',
-	data() {
-		return {
-			header: 'Periodic Table of the Elements',
-		};
-	},
 	components: {
 		Menu,
 	},
@@ -28,6 +25,9 @@ export default {
 	padding: 2vw;
 	.menuWrap {
 		float: left;
+	}
+	.titleWrap {
+		margin-left: -7.5vw;
 	}
 	h1 {
 		width: 100%;

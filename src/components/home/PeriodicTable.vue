@@ -15,7 +15,7 @@
 					<div id="bohr-model-container"></div>
 				</div>
 			</div>
-			<InfoBox v-else-if="current && mode === 'table'" :element="current" />
+			<InfoBox v-else-if="current && mode === 'table'" :element="current" :animations="animations" />
 			<AddBox v-else-if="mode === 'addition'" :elements="toBeSummed" :symbols="toBeSummedElements" />
 			<TrendBox v-else :current="currentForTrend" />
 
@@ -58,6 +58,7 @@ export default {
 			elements: Elements,
 			mode: 'table',
 			atomGraph: null,
+			animations: true,
 			toBeSummed: [],
 			toBeSummedElements: [],
 			current: null,
@@ -133,12 +134,14 @@ export default {
 			};
 			this.atomGraph = new Atom(atomicConfig);
 		}, 600);
-
 		this.$root.$on('trends', text => {
 			this.mode = 'trends';
 		});
 		this.$root.$on('table', text => {
 			this.mode = 'table';
+		});
+		this.$root.$on('toggleAnimations', text => {
+			this.animations = !this.animations;
 		});
 		this.$root.$on('displayTrend', text => {
 			this.trend = text;
@@ -164,6 +167,9 @@ export default {
 			setTimeout(() => {
 				this.block = 'display: none';
 			}, 600);
+		},
+		current: function() {
+			this.atomGraph.destroy();
 		},
 	},
 	methods: {
@@ -249,7 +255,7 @@ sup {
 					margin-bottom: 0.7vw;
 					font-weight: 300;
 					padding-bottom: 0.8vw;
-					font-size: 1.5vw;
+					font-size: 1.3vw;
 					border-bottom: 0.5px solid rgba(205, 205, 205, 0.5);
 					text-align: center;
 				}

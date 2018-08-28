@@ -39,7 +39,6 @@ export default {
 	box-sizing: border-box;
 	text-align: center;
 	padding: 0.2vw;
-	transition: 0.2s;
 	transition-timing-function: ease;
 	.atomicnumber {
 		text-align: left;

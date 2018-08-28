@@ -1,9 +1,9 @@
 <template>
 	<v-layout wrap>
-		<v-btn class="menuBtn" @click.stop="drawer = !drawer" depressed>
-			<v-icon class="menuIcon">menu</v-icon>
-		</v-btn>
-		<v-navigation-drawer v-model="drawer" absolute temporary class="drawer" style="width: 13vw">
+		<!-- <v-btn class="menuBtn" @click.stop="drawer = !drawer" depressed> -->
+		<v-icon class="menuIcon" @click.stop="drawer = !drawer" v-ripple>menu</v-icon>
+		<!-- </v-btn> -->
+		<v-navigation-drawer v-model="drawer" absolute temporary class="drawer info" style="width: 14vw">
 			<h1>Modes</h1>
 			<div class="item" v-for="item in items" :key="item.title" @click="changeMode(item.class)">
 				<v-icon :class="item.class+' icon'">{{ item.icon }}</v-icon>
@@ -11,6 +11,7 @@
 					{{ item.title }}
 				</p>
 			</div>
+			<v-switch label="Orbital Animations" v-model="electronAnimations" input-value="true" class="switch" color="white"></v-switch>
 		</v-navigation-drawer>
 	</v-layout>
 </template>
@@ -25,7 +26,13 @@ export default {
 				{ title: 'Periodic Table', class: 'table', icon: 'bubble_chart' },
 				{ title: 'Periodic Trends', class: 'trends', icon: 'poll' },
 			],
+			electronAnimations: true,
 		};
+	},
+	watch: {
+		electronAnimations: function() {
+			this.$root.$emit('toggleAnimations', '');
+		},
 	},
 	methods: {
 		changeMode(mode) {
@@ -36,43 +43,28 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-* {
-	font-size: 1.4vw;
-	max-height: none;
-	// line-height: 2vw;
-}
-.v-list__tile {
-	height: 5vw;
-}
-.menuBtn {
-	position: absolute;
-	float: left;
-	padding: 0;
-	min-width: 0;
-	margin: 0 0 0 3.5vw;
-	width: 3.5vw;
-	height: 3.5vw;
-	background: none !important;
-	color: rgba(255, 255, 255, 0.8);
-}
+<style lang="scss">
 .menuIcon {
 	font-size: 3.5vw;
+	margin-left: 3.6vw;
+	opacity: 0.8;
+	&:hover {
+		background: rgba(230, 230, 230, 0.2);
+	}
 }
 .v-navigation-drawer--close.v-navigation-drawer--temporary {
-	transform: translateX(-13vw) !important;
+	transform: translateX(-14vw) !important;
 }
 .drawer {
-	// padding: 0.4vw;
-	// padding-top: 1.5vw;
-	background: rgba(60, 66, 80, 0.85);
+	background: rgba(69, 120, 236, 0.85);
 	max-width: none;
 	padding: 0;
+	height: 112vh !important;
 	h1 {
 		font-weight: 300;
 		font-size: 1.5vw;
 		margin-top: 1vw;
-		border-bottom: 0.5px solid rgba(205, 205, 205, 0.5);
+		border-bottom: 0.5px solid rgba(225, 225, 225, 0.7);
 		height: 3vw;
 	}
 	.v-navigation-drawer__border {
@@ -80,8 +72,7 @@ export default {
 	}
 	.item {
 		color: rgba(255, 255, 255, 0.7);
-		height: 5vw;
-		// padding: 1vw;
+		height: 4vw;
 		transition: 0.25s;
 		&:hover {
 			cursor: pointer;
@@ -89,8 +80,8 @@ export default {
 		}
 		.icon {
 			float: left;
-			font-size: 2.7vw;
-			padding: 1.1vw;
+			font-size: 2.3vw;
+			padding: 0.85vw;
 			color: rgb(79, 133, 133);
 			opacity: 1;
 		}
@@ -100,11 +91,27 @@ export default {
 		.text {
 			text-align: left;
 			float: right;
-			font-size: 1.3vw;
-			width: 8vw;
-			padding: 0.5vw 1.5vw 0 0;
-			margin: 0;
+			font-size: 1.2vw;
+			line-height: 1.7vw;
+			padding-top: 1.1vw;
+			width: 10vw;
+			margin-left: -1.5vw;
 			font-weight: 200;
+		}
+	}
+	.switch {
+		width: 13vw;
+		margin: auto;
+		padding: 0;
+		position: fixed;
+		bottom: 6.5vw;
+		label {
+			font-size: 1vw !important;
+			text-align: left;
+			line-height: 1.5vw;
+		}
+		.v-input--selection-controls__input {
+			margin: 0.5vw;
 		}
 	}
 	width: 10vw;
@@ -128,8 +135,6 @@ export default {
 		transform: translateX(-43vw) !important;
 	}
 	.drawer {
-		// padding: 0.4vw;
-		// padding-top: 1.5vw;
 		background: rgba(60, 66, 80, 0.85);
 		max-width: none;
 		padding: 0;
@@ -146,7 +151,6 @@ export default {
 		.item {
 			color: rgba(255, 255, 255, 0.7);
 			height: 15vw;
-			// padding: 1vw;
 			transition: 0.25s;
 			&:hover {
 				cursor: pointer;
@@ -172,6 +176,9 @@ export default {
 				margin: 0;
 				font-weight: 200;
 			}
+		}
+		.switch {
+			display: none;
 		}
 		width: 40vw !important;
 	}

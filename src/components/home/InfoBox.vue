@@ -28,7 +28,7 @@ import General from '@/assets/elementGeneral.json';
 
 export default {
 	name: 'InfoBox',
-	props: ['element', 'mass'],
+	props: ['element', 'mass', 'animations'],
 	data() {
 		return {
 			atomGraph: null,
@@ -64,7 +64,23 @@ export default {
 			};
 
 			this.atomGraph._redrawAtom();
-			this.atomGraph.rotateOrbitals(orbitalRotationConfig);
+			if (this.animations) {
+				this.atomGraph.rotateOrbitals(orbitalRotationConfig);
+			}
+		},
+		animations: function() {
+			this.atomGraph.destroy();
+			var orbitalRotationConfig = {
+				pattern: {
+					alternating: false,
+					clockwise: false,
+					preset: 'cubedNegative',
+				},
+			};
+			this.atomGraph._redrawAtom();
+			if (this.animations) {
+				this.atomGraph.rotateOrbitals(orbitalRotationConfig);
+			}
 		},
 	},
 	mounted() {
