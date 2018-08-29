@@ -35,8 +35,8 @@ footer {
 	margin: 1vw auto auto auto;
 }
 .v-footer {
-	background: rgba(30, 36, 50, 1);
-	color: rgba(255, 255, 255, 0.8);
+	background: rgba(30, 36, 50, 1) !important;
+	color: rgba(255, 255, 255, 0.8) !important;
 	width: 88%;
 	.copy {
 		background: none !important;
