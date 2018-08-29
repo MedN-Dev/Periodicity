@@ -4,7 +4,7 @@
 			<span class="menuWrap">
 				<Menu/>
 			</span>
-			<span class="titleWrap">Periodic Table of the Elements Test</span>
+			<span class="titleWrap">Periodic Table of the Elements</span>
 		</h1>
 	</div>
 </template>
