@@ -230,10 +230,10 @@ export default {
 
 <style lang="scss" scoped>
 .application.theme--dark {
-	background: rgba(30, 36, 50, 1);
+	background: rgba(30, 36, 50, 1) !important;
 	.layout {
 		width: 90%;
-		margin: auto;
+		margin: auto !important;
 		.name {
 			font-size: 40px;
 			font-weight: 300;

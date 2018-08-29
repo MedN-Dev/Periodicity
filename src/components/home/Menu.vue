@@ -45,7 +45,7 @@ export default {
 
 <style lang="scss">
 .menuIcon {
-	font-size: 3.5vw;
+	font-size: 3.5vw !important;
 	margin-left: 3.6vw;
 	opacity: 0.8;
 	&:hover {

@@ -31,7 +31,7 @@ body {
 	margin: 0;
 }
 .application.theme--dark {
-	background: rgba(30, 36, 50, 1);
+	background: rgba(30, 36, 50, 1) !important;
 }
 .application .theme--dark.v-navigation-drawer .v-divider,
 .application .theme--dark.v-navigation-drawer:not(.v-navigation-drawer--floating) .v-navigation-drawer__border,
