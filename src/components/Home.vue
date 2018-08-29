@@ -52,8 +52,6 @@ body {
 @media only screen and (max-width: 600px) {
 	.tableWrap {
 		width: 100%;
-		// margin-left: auto;
-		// margin-right: auto;
 		overflow: scroll;
 		clear: both;
 		padding-bottom: 4vw;
