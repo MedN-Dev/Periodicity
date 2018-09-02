@@ -14,10 +14,21 @@
 				<p class="value">{{element.atomicMass}}</p>
 			</div>
 			<div class="display">
-				<p class="label">Density</p>
+				<v-tooltip top>
+					<p slot="activator" class="label" color="primary">Density</p>
+					<span>in g/mL</span>
+				</v-tooltip>
 				<p class="value">{{element.density || 'unknown'}}</p>
 			</div>
-			<div id="bohr-model-container"></div>
+			<div id="bohr-model-container">
+			</div>
+			<v-tooltip bottom>
+				<div class="bohrOverlay" slot="activator">
+				</div>
+				<span>Bohr Model <br/>
+					<span v-html="convertEC(element)"></span>
+				</span>
+			</v-tooltip>
 		</div>
 	</div>
 </template>
@@ -145,6 +156,25 @@ export default {
 			} else {
 				return 'Unknown';
 			}
+		},
+		convertEC(element) {
+			var ec = element.electronicConfiguration.split('');
+			var en = element.atomicNumber;
+			for (var i = 0; i < ec.length; i++) {
+				if (ec[i].match(/[a-z]/i) && i > 3) {
+					ec[i + 1] = '<sup style="font-size: 10px">' + ec[i + 1] + '</sup>';
+					if (ec[i + 2] && ec[i + 2] !== ' ') {
+						ec[i + 2] = '<sup style="font-size: 10px">' + ec[i + 2] + '</sup>';
+						i++;
+					}
+					i++;
+				}
+			}
+			if (parseInt(element.atomicNumber) > 2) {
+				ec.splice(0, 0, '<span style="color: rgba(255, 255, 255, 0.5)">');
+				ec.splice(5, 0, '</span>');
+			}
+			return ec.join('');
 		},
 		getImg(state) {
 			if (state === 'solid') {
@@ -292,6 +322,15 @@ export default {
 			width: 21vw;
 			height: 21vw;
 			float: right;
+		}
+		.bohrOverlay {
+			width: 10vw;
+			height: 10vw;
+			margin-left: 32vw;
+			margin-top: -3.7vw;
+			opacity: 0;
+			position: absolute;
+			z-index: 1;
 		}
 		.properties {
 			float: left;

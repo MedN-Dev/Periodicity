@@ -12,7 +12,7 @@
 							<p>{{point.description}}</p>
 						</div>
 					</div>
-					<div id="bohr-model-container"></div>
+					<div id="bohr-intro-container" :style="introBohr"></div>
 				</div>
 			</div>
 			<InfoBox v-else-if="current && mode === 'table'" :element="current" :animations="animations" />
@@ -58,6 +58,7 @@ export default {
 			elements: Elements,
 			mode: 'table',
 			atomGraph: null,
+			introBohr: '',
 			animations: true,
 			toBeSummed: [],
 			toBeSummedElements: [],
@@ -113,7 +114,7 @@ export default {
 		}, 200);
 		setTimeout(() => {
 			var atomicConfig = {
-				containerId: '#bohr-model-container',
+				containerId: '#bohr-intro-container',
 				numElectrons: 78,
 				nucleusColor: 'rgba(54, 68, 93, 1)',
 				electronRadius: 2.5,
@@ -139,6 +140,9 @@ export default {
 		});
 		this.$root.$on('table', text => {
 			this.mode = 'table';
+		});
+		this.$root.$on('defaultCurrent', text => {
+			this.current = this.elements[0];
 		});
 		this.$root.$on('toggleAnimations', text => {
 			this.animations = !this.animations;
@@ -169,7 +173,7 @@ export default {
 			}, 600);
 		},
 		current: function() {
-			this.atomGraph.destroy();
+			this.introBohr = 'display: none';
 		},
 	},
 	methods: {
@@ -279,7 +283,7 @@ sup {
 					}
 				}
 			}
-			#bohr-model-container {
+			#bohr-intro-container {
 				z-index: 0;
 				position: absolute;
 				margin-top: -7.3vw;
@@ -343,9 +347,6 @@ sup {
 	}
 }
 @media only screen and (max-width: 600px) {
-	::-webkit-scrollbar {
-		-webkit-appearance: none;
-	}
 	.spacer1 {
 		grid-area: wz;
 	}
@@ -380,9 +381,9 @@ sup {
 	#table {
 		margin-top: 1vw;
 		float: right;
+		border-right: 5vw;
 		display: inline-grid;
-		overflow: scroll;
-		width: 89vw;
+		width: 100vw;
 		grid-template-columns: repeat(18, 1fr);
 		grid-template-areas:
 			'.  wa wb wb wb wb wb wb wb wb wb wb wz wz wz wz wz .'

@@ -58,6 +58,11 @@ span {
 	font-weight: 400;
 }
 @media only screen and (max-width: 600px) {
+	footer {
+		color: rgba(255, 255, 255, 0.7);
+		margin: 4vw auto auto auto;
+		font-size: 12px;
+	}
 	.v-footer {
 		background: rgba(30, 36, 50, 1);
 		color: rgba(255, 255, 255, 0.8);
@@ -66,6 +71,9 @@ span {
 			background: none !important;
 			border: none !important;
 		}
+	}
+	.about {
+		font-size: 10px;
 	}
 }
 </style>

@@ -13,7 +13,6 @@ import Chart from 'chart.js';
 var pt = require('periodic-table');
 
 export default {
-	//warning: dozens of painful hours of hard coding due to data inconsistencies below
 	name: 'TrendBox',
 	props: ['current', 'height', 'active'],
 	mounted: function() {
@@ -373,7 +372,6 @@ export default {
 	background: none;
 	max-height: none;
 	.v-select-list {
-		// background: rgba(60, 66, 80, 0.95);
 		background: none;
 		.v-list {
 			background: none;
@@ -395,7 +393,7 @@ export default {
 		border-color: white;
 	}
 	.select {
-		width: 40% !important;
+		width: 30% !important;
 		opacity: 0.9;
 		margin: auto;
 		margin-top: 0.5vw;
@@ -408,7 +406,6 @@ export default {
 	.canvasWrap {
 		display: block;
 		height: 11.8vw;
-		// margin-bottom: -11vw;
 		#trendChart {
 			width: 100%;
 			margin: auto;
@@ -420,10 +417,10 @@ export default {
 @media only screen and (max-width: 600px) {
 	.wrap {
 		.select {
-			width: 40% !important;
+			width: 55% !important;
 			opacity: 0.9;
 			margin: auto;
-			margin-top: 2vw;
+			margin-top: 1vw;
 			height: 1.2vw;
 			.v-messages {
 				height: 14px;
@@ -431,8 +428,7 @@ export default {
 		}
 		.canvasWrap {
 			display: block;
-			height: 25.8vw;
-			// margin-bottom: -11vw;
+			height: 27.8vw !important;
 			#trendChart {
 				width: 100%;
 				margin: auto;

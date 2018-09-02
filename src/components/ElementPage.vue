@@ -614,7 +614,7 @@ export default {
 			.card {
 				.content {
 					padding: 1.5vw;
-					height: 75vw;
+					height: 115vw;
 					box-sizing: border-box;
 					position: relative;
 					.description {
@@ -684,10 +684,10 @@ export default {
 				height: 85vw;
 			}
 			#graph {
-				height: 40vw;
+				height: 50vw;
 			}
 			#info {
-				height: 85vw !important;
+				height: 125vw !important;
 			}
 		}
 	}

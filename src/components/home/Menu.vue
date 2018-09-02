@@ -1,8 +1,6 @@
 <template>
 	<v-layout wrap>
-		<!-- <v-btn class="menuBtn" @click.stop="drawer = !drawer" depressed> -->
 		<v-icon class="menuIcon" @click.stop="drawer = !drawer" v-ripple>menu</v-icon>
-		<!-- </v-btn> -->
 		<v-navigation-drawer v-model="drawer" absolute temporary class="drawer info" style="width: 14vw">
 			<h1>Modes</h1>
 			<div class="item" v-for="item in items" :key="item.title" @click="changeMode(item.class)">
@@ -13,6 +11,7 @@
 			</div>
 			<v-switch label="Orbital Animations" v-model="electronAnimations" input-value="true" class="switch" color="white"></v-switch>
 		</v-navigation-drawer>
+
 	</v-layout>
 </template>
 
@@ -37,6 +36,10 @@ export default {
 	methods: {
 		changeMode(mode) {
 			this.$root.$emit(`${mode}`, `Changed mode to ${mode}`);
+			this.$root.$emit('pushChange', `${mode}`);
+			if (mode === 'trends') {
+				this.$root.$emit('defaultCurrent', `Add default current`);
+			}
 			this.drawer = !this.drawer;
 		},
 	},
@@ -66,6 +69,7 @@ export default {
 		margin-top: 1vw;
 		border-bottom: 0.5px solid rgba(225, 225, 225, 0.7);
 		height: 3vw;
+		text-align: center;
 	}
 	.v-navigation-drawer__border {
 		width: 0 !important;
@@ -104,7 +108,7 @@ export default {
 		margin: auto;
 		padding: 0;
 		position: fixed;
-		bottom: 6.5vw;
+		top: 93vh;
 		label {
 			font-size: 1vw !important;
 			text-align: left;
@@ -117,19 +121,10 @@ export default {
 	width: 10vw;
 }
 @media only screen and (max-width: 600px) {
-	.menuBtn {
-		position: absolute;
-		float: left;
-		padding: 0;
-		min-width: 0;
-		margin: 0;
-		width: 7vw;
-		height: 7vw;
-		background: none !important;
-		color: rgba(255, 255, 255, 0.8);
-	}
 	.menuIcon {
-		font-size: 6vw;
+		font-size: 7.5vw !important;
+		margin-left: -2vw;
+		margin-top: 1vw;
 	}
 	.v-navigation-drawer--close.v-navigation-drawer--temporary {
 		transform: translateX(-43vw) !important;
