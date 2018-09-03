@@ -2,8 +2,8 @@
 	<v-footer height="auto" :style="'width: '+ width">
 		<v-layout justify-center row wrap>
 			<v-card-text class="pt-0 about">
-				Periodicity.io is an MIT licensed, open-source application that animates and graphs periodic data in order to make the visualization of chemical concepts easier. It uses Vue.js for API structuring and data from primarily Chris Andrejewski's npm package. Source code can be found
-				<a href="https://github.com/kadinzhang/Periodic-Table">here</a>.
+				Periodicity, the tendency of elements to form trends that repeat over intervals, is one of the most beautiful concepts in chemistry. This MIT licensed,
+				<a href="https://github.com/kadinzhang/Periodic-Table">open source</a> application graphs and animates periodic data with the aim of making the concept of periodicity easier to grasp.
 			</v-card-text>
 			<v-flex primary lighten-2 py-3 text-xs-center xs12 class="copy">
 				&copy;2018 -
@@ -50,7 +50,7 @@ footer {
 	font-size: 15px;
 	a {
 		text-decoration: none;
-		color: lightslategray;
+		color: rgba(255, 255, 255, 0.6);
 		font-style: italic;
 	}
 }

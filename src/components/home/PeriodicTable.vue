@@ -77,7 +77,7 @@ export default {
 					class: 'point2',
 					icon: 'poll',
 					description:
-						'Use the menu to access the periodic trends mode, where you can graph various properties of elements',
+						'Graph and visualize periodic trends through the periodic trend mode in the menu or header',
 					color: 'lightsteelblue',
 				},
 				{
