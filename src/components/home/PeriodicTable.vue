@@ -99,6 +99,21 @@ export default {
 			noble: [2, 10, 18, 36, 54, 86, 118],
 			lanthanoid: [57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71],
 			actinoid: [89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103],
+			loadOrder: {
+				1: [1, 103],
+				2: [3, 102, 71, 118],
+				3: [11, 4, 101, 70, 117, 86],
+				4: [19, 12, 100, 69, 116, 85, 54],
+				5: [37, 20, 99, 68, 115, 84, 53, 36],
+				6: [55, 38, 21, 98, 67, 114, 83, 52, 35, 18],
+				7: [87, 56, 39, 22, 97, 66, 113, 82, 51, 34, 17, 10],
+				8: [88, 40, 23, 96, 65, 112, 81, 50, 33, 16, 9, 2],
+				9: [72, 41, 24, 95, 64, 111, 80, 49, 32, 15, 8],
+				10: [57, 104, 73, 42, 25, 94, 63, 110, 79, 48, 31, 14, 7],
+				11: [89, 58, 105, 74, 43, 26, 93, 62, 109, 78, 47, 30, 13, 6],
+				12: [90, 59, 106, 75, 44, 27, 92, 61, 108, 77, 46, 29, 5],
+				13: [91, 60, 107, 76, 45, 28],
+			},
 		};
 	},
 	components: {
@@ -111,7 +126,7 @@ export default {
 	mounted: function() {
 		setTimeout(() => {
 			this.loadHandler = 'opacity: 1; margin-top: 0';
-		}, 200);
+		}, 1800);
 		setTimeout(() => {
 			var atomicConfig = {
 				containerId: '#bohr-intro-container',
@@ -134,7 +149,7 @@ export default {
 				drawSymbol: true,
 			};
 			this.atomGraph = new Atom(atomicConfig);
-		}, 600);
+		}, 1900);
 		this.$root.$on('trends', text => {
 			this.mode = 'trends';
 		});
@@ -192,26 +207,32 @@ export default {
 		},
 		createElementClass(element) {
 			var n = element.atomicNumber;
+			var loadIndex = '';
+			Object.entries(this.loadOrder).forEach(([key, value]) => {
+				if (value.includes(n)) {
+					loadIndex += key.toString();
+				}
+			});
 			if (this.nonMetal.includes(n)) {
-				return 'nonMetal';
+				return 'nonMetal l' + loadIndex;
 			} else if (this.alkali.includes(n)) {
-				return 'alkali';
+				return 'alkali l' + loadIndex;
 			} else if (this.akaliEarth.includes(n)) {
-				return 'alkaliEarth';
+				return 'alkaliEarth l' + loadIndex;
 			} else if (this.transitionMetal.includes(n)) {
-				return 'transitionMetal';
+				return 'transitionMetal l' + loadIndex;
 			} else if (this.postTransition.includes(n)) {
-				return 'postTransition';
+				return 'postTransition l' + loadIndex;
 			} else if (this.halogen.includes(n)) {
-				return 'halogen';
+				return 'halogen l' + loadIndex;
 			} else if (this.noble.includes(n)) {
-				return 'noble';
+				return 'noble l' + loadIndex;
 			} else if (this.lanthanoid.includes(n)) {
-				return 'lanthanoid';
+				return 'lanthanoid l' + loadIndex;
 			} else if (this.actinoid.includes(n)) {
-				return 'actinoid';
+				return 'actinoid l' + loadIndex;
 			} else if (this.metalloid.includes(n)) {
-				return 'metalloid';
+				return 'metalloid l' + loadIndex;
 			}
 		},
 		currentElement(element) {

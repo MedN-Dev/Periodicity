@@ -1,5 +1,5 @@
 <template>
-	<div class="element">
+	<div class="element" :style="preloadStyles">
 		<div class="atomicnumber">{{element.atomicNumber}}
 			<span>{{element.atomicMass}}</span>
 		</div>
@@ -13,7 +13,14 @@ export default {
 	name: 'ElementCard',
 	props: ['element'],
 	data() {
-		return {};
+		return {
+			preloadStyles: 'opacity: 0',
+		};
+	},
+	mounted: function() {
+		setTimeout(() => {
+			this.preloadStyles = '';
+		}, 500);
 	},
 	methods: {
 		convertMass(element) {
@@ -39,7 +46,11 @@ export default {
 	box-sizing: border-box;
 	text-align: center;
 	padding: 0.2vw;
+	opacity: 1;
+	transform: translate(0, 0);
+	-webkit-backface-visibility: hidden;
 	transition-timing-function: ease;
+	transition: opacity 1s ease;
 	.atomicnumber {
 		text-align: left;
 		color: rgba(245, 245, 245, 0.5);
@@ -63,7 +74,48 @@ export default {
 		color: rgba(255, 255, 255, 0.9);
 	}
 }
-//TODO: refractor styles into object + v-style
+.preload {
+	opacity: 0;
+}
+.l1 {
+	transition-delay: 0ms;
+}
+.l2 {
+	transition-delay: 100ms;
+}
+.l3 {
+	transition-delay: 180ms;
+}
+.l4 {
+	transition-delay: 260ms;
+}
+.l5 {
+	transition-delay: 320ms;
+}
+.l6 {
+	transition-delay: 380ms;
+}
+.l7 {
+	transition-delay: 440ms;
+}
+.l8 {
+	transition-delay: 500ms;
+}
+.l9 {
+	transition-delay: 550ms;
+}
+.l10 {
+	transition-delay: 600ms;
+}
+.l11 {
+	transition-delay: 640ms;
+}
+.l12 {
+	transition-delay: 670ms;
+}
+.l13 {
+	transition-delay: 700ms; //
+}
 .alkali {
 	background-color: rgba(110, 60, 70, 0.65);
 	&:hover {

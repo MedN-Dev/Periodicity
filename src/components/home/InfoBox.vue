@@ -212,7 +212,7 @@ export default {
 		margin-left: 0.5vw;
 		font-weight: 300;
 		height: 5vw;
-		line-height: 2.2vw;
+		line-height: 2vw;
 		.classification {
 			color: rgba(255, 255, 255, 0.5);
 			font-size: 1.3vw;
@@ -282,10 +282,10 @@ export default {
 				margin-top: 1.5vw;
 			}
 			img {
-				width: 41%;
+				width: 34%;
 				opacity: 0.7;
 				margin: auto;
-				margin-top: 0.4vw;
+				margin-top: 0.7vw;
 				display: block;
 			}
 		}
@@ -322,6 +322,9 @@ export default {
 			width: 21vw;
 			height: 21vw;
 			float: right;
+			.bohr-atomic-symbol {
+				font-family: 'Open Sans', sans-serif;
+			}
 		}
 		.bohrOverlay {
 			width: 10vw;

@@ -1,9 +1,9 @@
 <template>
 	<div class="nav">
-		<span class="menuWrap">
+		<span class="menuWrap" :style="menuPreload">
 			<Menu/>
 		</span>
-		<h1>
+		<h1 :style="preloads">
 			Periodic
 			<span class="modeSelect" :class="isActive('table')" id="m1" @click="changeMode('table')">Table</span>
 			<span class="modeSelect" :class="isActive('trends')" id="m2" @click="changeMode('trends')">Trends</span>
@@ -21,7 +21,18 @@ export default {
 	data() {
 		return {
 			activeMode: 'table',
+			preloads: 'opacity: 0; margin-top: -1vw',
+			menuPreload: 'opacity: 0',
 		};
+	},
+	mounted: function() {
+		setTimeout(() => {
+			this.preloads = '';
+			this.menuPreload = '';
+		}, 1500);
+		this.$root.$on('pushChange', text => {
+			this.activeMode = text;
+		});
 	},
 	methods: {
 		changeMode(mode) {
@@ -41,11 +52,6 @@ export default {
 			} else return '';
 		},
 	},
-	mounted: function() {
-		this.$root.$on('pushChange', text => {
-			this.activeMode = text;
-		});
-	},
 };
 </script>
 
@@ -55,15 +61,19 @@ export default {
 	padding: 2vw;
 	.menuWrap {
 		float: left;
+		transition: 0.5s;
 	}
 	h1 {
 		position: absolute;
 		margin-left: 18vw;
+		margin-top: 0;
 		width: 50%;
 		text-align: center;
 		color: rgba(255, 255, 255, 0.9);
 		font-weight: 300;
 		font-size: 2.3vw;
+		opacity: 1;
+		transition: 0.5s;
 		.modeSelect {
 			opacity: 0.3;
 			transition: 0.5s ease;
