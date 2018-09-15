@@ -29,7 +29,7 @@ export default {
 		setTimeout(() => {
 			this.preloads = '';
 			this.menuPreload = '';
-		}, 1500);
+		}, 1700);
 		this.$root.$on('pushChange', text => {
 			this.activeMode = text;
 		});

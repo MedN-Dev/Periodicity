@@ -126,7 +126,7 @@ export default {
 	mounted: function() {
 		setTimeout(() => {
 			this.loadHandler = 'opacity: 1; margin-top: 0';
-		}, 1800);
+		}, 2000);
 		setTimeout(() => {
 			var atomicConfig = {
 				containerId: '#bohr-intro-container',
@@ -137,7 +137,7 @@ export default {
 				orbitalWidth: 1,
 				orbitalColor: 'rgba(54, 68, 93, 1)',
 				idNumber: 10,
-				animationTime: 1700,
+				animationTime: 0,
 				orbitalRotationConfig: {
 					pattern: {
 						alternating: false,
@@ -149,7 +149,7 @@ export default {
 				drawSymbol: true,
 			};
 			this.atomGraph = new Atom(atomicConfig);
-		}, 1900);
+		}, 2100);
 		this.$root.$on('trends', text => {
 			this.mode = 'trends';
 		});
