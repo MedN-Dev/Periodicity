@@ -127,6 +127,10 @@ export default {
 		setTimeout(() => {
 			this.loadHandler = 'opacity: 1; margin-top: 0';
 		}, 2000);
+		this.block = 'display: block';
+		setTimeout(() => {
+			this.block = 'display: none';
+		}, 3000);
 		setTimeout(() => {
 			var atomicConfig = {
 				containerId: '#bohr-intro-container',
