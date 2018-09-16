@@ -47,8 +47,6 @@ export default {
 	text-align: center;
 	padding: 0.2vw;
 	opacity: 1;
-	transform: translate(0, 0);
-	-webkit-backface-visibility: hidden;
 	transition-timing-function: ease;
 	transition: opacity 1s ease;
 	.atomicnumber {
