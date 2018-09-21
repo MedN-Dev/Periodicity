@@ -19,7 +19,7 @@ export default {
 	},
 	mounted: function() {
 		setTimeout(() => {
-			this.preloadStyles = '';
+			this.preloadStyles = 'opacity: 1';
 		}, 500);
 	},
 	methods: {
@@ -43,11 +43,8 @@ export default {
 	color: rgba(245, 245, 245, 0.55);
 	width: 100%;
 	height: 100%;
-	box-sizing: border-box;
 	text-align: center;
 	padding: 0.2vw;
-	opacity: 1;
-	transition-timing-function: ease;
 	transition: opacity 1s ease;
 	.atomicnumber {
 		text-align: left;

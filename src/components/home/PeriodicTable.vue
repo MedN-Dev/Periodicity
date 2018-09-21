@@ -356,8 +356,9 @@ sup {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 4.87vw;
-		height: 4.87vw;
+		grid-gap: 0;
+		width: 4.86vw;
+		height: 4.86vw;
 		.routerWrap {
 			width: 100%;
 			height: 100%;
