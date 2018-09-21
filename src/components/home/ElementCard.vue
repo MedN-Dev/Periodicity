@@ -40,9 +40,13 @@ export default {
 
 <style lang="scss" scoped>
 .element {
+	// float: left;
 	color: rgba(245, 245, 245, 0.55);
 	width: 100%;
 	height: 100%;
+	max-width: 4.86vw;
+	max-height: 4.86vw;
+	overflow: hidden;
 	text-align: center;
 	padding: 0.2vw;
 	transition: opacity 1s ease;
@@ -56,7 +60,7 @@ export default {
 		}
 	}
 	.name {
-		font-size: 0.66vw;
+		font-size: 0.63vw;
 		margin-top: -0.2vw;
 		opacity: 0.9;
 	}

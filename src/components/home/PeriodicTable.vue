@@ -354,12 +354,11 @@ sup {
 		'wf wf .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . ';
 	.elementWrapper {
 		display: flex;
-		align-items: center;
 		justify-content: center;
-		grid-gap: 0;
 		width: 4.86vw;
 		height: 4.86vw;
 		.routerWrap {
+			object-fit: cover;
 			width: 100%;
 			height: 100%;
 			text-decoration: none;
