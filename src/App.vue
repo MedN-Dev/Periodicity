@@ -23,4 +23,40 @@ text {
 	font-family: 'Open Sans', sans-serif !important;
 	opacity: 0.9 !important;
 }
+//Symbol offsets
+@media only screen and (min-width: 1600px) {
+	text {
+		font-family: 'Open Sans', sans-serif !important;
+		opacity: 0.9 !important;
+		transform: translate(0, 0.1em) !important;
+	}
+}
+@media only screen and (max-width: 1300px) {
+	text {
+		font-family: 'Open Sans', sans-serif !important;
+		opacity: 0.9 !important;
+		transform: translate(0, -0.1em) !important;
+	}
+}
+@media only screen and (max-width: 1050px) {
+	text {
+		font-family: 'Open Sans', sans-serif !important;
+		opacity: 0.9 !important;
+		transform: translate(0, -0.2em) !important;
+	}
+}
+@media only screen and (max-width: 750px) {
+	text {
+		font-family: 'Open Sans', sans-serif !important;
+		opacity: 0.9 !important;
+		transform: translate(0, -0.35em) !important;
+	}
+}
+@media only screen and (max-width: 450px) {
+	text {
+		font-family: 'Open Sans', sans-serif !important;
+		opacity: 0.9 !important;
+		transform: translate(0, -0.3em) !important;
+	}
+}
 </style>

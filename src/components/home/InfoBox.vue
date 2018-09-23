@@ -290,9 +290,6 @@ export default {
 				position: absolute;
 			}
 		}
-		// 		svg.bohr-svg-content-responsive .bohr-atomic-symbol {
-		//   transform: translate(0,-0.25em)
-		// }
 		.display {
 			display: block;
 			width: 25%;
