@@ -273,6 +273,7 @@ export default {
 			margin-right: -1%;
 			display: block;
 			float: left;
+			position: relative;
 			p {
 				font-size: 1.3vw;
 				color: rgba(255, 255, 255, 0.5);
@@ -282,13 +283,16 @@ export default {
 				margin-top: 1.5vw;
 			}
 			img {
-				width: 34%;
+				width: 3vw;
 				opacity: 0.7;
-				margin: auto;
+				left: 32.8%;
 				margin-top: 0.7vw;
-				display: block;
+				position: absolute;
 			}
 		}
+		// 		svg.bohr-svg-content-responsive .bohr-atomic-symbol {
+		//   transform: translate(0,-0.25em)
+		// }
 		.display {
 			display: block;
 			width: 25%;
